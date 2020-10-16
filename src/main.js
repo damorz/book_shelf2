@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from "vue-router"
+
 // import Vuetify from 'vuetify'
 // import Vuex from 'vuex';
 import routes from "./routes";
+
+import vuetify from './plugins/vuetify';
 
 Vue.use(VueRouter)
 
@@ -17,5 +20,6 @@ const router = new VueRouter({
 
 new Vue({
   render: h => h(App),
+  vuetify,
   router
 }).$mount('#app')
