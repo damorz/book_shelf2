@@ -25,3 +25,32 @@
 .theme--light.v-list {
   background: #eaeaea;
 }
+
+.book-info-container {
+  background-color: white;
+  align-items: center;
+  height: 80%;
+}
+
+.price-block {
+  border: 2px;
+  border-color: red;
+  width: 100%;
+  height: 30%;
+}
+
+.btn-row-stack {
+  margin-left: 1%;
+}
+
+.text-error {
+  color: red;
+}
+
+.text-free {
+  color: rgb(0, 163, 0);
+}
+
+.text-price {
+  color: rgb(30, 49, 90);
+}

@@ -5,14 +5,16 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    count: 0,
+    favoriteBookCount: 0,
     bookData: null,
     bookInfo: null,
     bookId: null,
+    searchKey: "",
+    bookDataBackup: null,
   },
   mutations: {
-    increment(state) {
-      state.count++;
+    setfavoriteBookCount(state, count) {
+      state.favoriteBookCount = count;
     },
     setBookSearch(state, data) {
       state.bookData = data;
@@ -23,10 +25,16 @@ const store = new Vuex.Store({
     setBookInfo(state, info) {
       state.bookInfo = info;
     },
+    setSearchKey(state, key) {
+      state.searchKey = key;
+    },
+    setBookListBackup(state, data) {
+      state.bookDataBackup = data;
+    },
   },
   getters: {
-    getCount(state) {
-      return state.count;
+    getFavoriteBookCount(state) {
+      return state.favoriteBookCount;
     },
     getBookData(state) {
       return state.bookData;
@@ -37,14 +45,25 @@ const store = new Vuex.Store({
     getBookInfo(state) {
       return state.bookInfo;
     },
+    getSearchKey(state) {
+      return state.searchKey;
+    },
+    getBookListBackup(state) {
+      return state.bookDataBackup;
+    },
   },
   actions: {
-    searchBookList(context, search) {
+    searchBookList(context, searchKey) {
       axios
-        .get("https://www.googleapis.com/books/v1/volumes?q=" + search)
+        .get("https://www.googleapis.com/books/v1/volumes?q=" + searchKey)
         .then((response) => {
           context.commit("setBookSearch", response.data);
         });
+    },
+    searchBookListBySearchBar(context, searchKey) {
+      if (searchKey == this.state.searchKey) {
+        context.dispatch("searchBookList", searchKey);
+      }
     },
     searchBook(context, id) {
       axios
@@ -55,6 +74,24 @@ const store = new Vuex.Store({
     },
     setBookId(context, id) {
       context.commit("setBookID", id);
+    },
+    randomSearchBook(context) {
+      var randomString = Math.random()
+        .toString(36)
+        .substr(2, 1);
+      context.dispatch("searchBookList", randomString);
+      setTimeout(function() {
+        context.dispatch("setBookListBackup");
+      }, 2000);
+    },
+    setSearchKey(context, key) {
+      context.commit("setSearchKey", key);
+    },
+    setBookListBackup(context) {
+      context.commit("setBookListBackup", this.state.bookData);
+    },
+    restoreBookData(context) {
+      context.commit("setBookSearch", this.state.bookDataBackup);
     },
   },
 });
