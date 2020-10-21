@@ -2,15 +2,23 @@
   <div v-if="hasBookItem">
     <div v-for="item in items.items" :key="item.id">
       <v-list-item v-if="item.id" class="book-item">
+        
         <v-img
-          v-if="item.volumeInfo.imageLinks.thumbnail"
+          v-if="item.volumeInfo.imageLinks == null"
+          max-height="100%"
+          max-width="10%"
+          src="https://i.redd.it/s8lk86v3r2m11.png"
+        >
+        </v-img>
+        <v-img
+          v-else-if="item.volumeInfo.imageLinks.thumbnail != null"
           max-height="100%"
           max-width="10%"
           :src="item.volumeInfo.imageLinks.thumbnail"
         >
         </v-img>
         <v-img
-          v-else
+          v-else-if="item.volumeInfo.imageLinks.smallThumbnail !=null"
           max-height="100%"
           max-width="10%"
           :src="item.volumeInfo.imageLinks.smallThumbnail"
