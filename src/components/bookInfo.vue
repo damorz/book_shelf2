@@ -124,22 +124,24 @@ export default {
     return {
       favCount: null,
       favId: null,
-      btnColor: true
     };
   },
   mounted() {
     this.$store.dispatch("searchBook", this.$route.params.bookId);
     this.favId = localStorage.getItem(this.$route.params.bookId);
+    this.favCount = parseInt(localStorage.getItem("favoriteBookCount"));
+    if (isNaN(this.favCount)) {
+        this.favCount = 0;
+        localStorage.setItem("favoriteBookCount",0);
+      }
   },
   methods: {
     goToBuyPage() {
       window.open(this.bookItem.volumeInfo.infoLink);
     },
     favoriteClick() {
-      this.favCount = parseInt(localStorage.getItem("favoriteBookCount"));
-      if (this.favCount == null) {
-        this.favCount = 0;
-      }
+      
+      
 
       this.favId = localStorage.getItem(this.bookItem.id);
 
