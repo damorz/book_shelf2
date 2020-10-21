@@ -41,23 +41,24 @@
               </v-btn>
             </v-col>
             <v-col>
+              <!-- v-if="checkFav(item.id)" -->
               <v-btn
-                v-if="checkFav(item.id)"
+                
                 class="btn-row-stack"
-                color="red"
+                v-bind:color="checkFav(item.id) ? 'red' : 'gray'"
                 icon
                 @click="favoriteClick(item.id)"
               >
                 <v-icon>mdi-heart</v-icon>
               </v-btn>
-              <v-btn
+              <!-- <v-btn
               v-else
                 class="btn-row-stack"
                 icon
                 @click="favoriteClick(item.id)"
               >
                 <v-icon>mdi-heart</v-icon>
-              </v-btn>
+              </v-btn> -->
 
               Add to favorite
             </v-col>
@@ -132,9 +133,9 @@ export default {
       return this.items != null;
     },
     currentcheckFav() {
-      
       return true;
-    }
+    },
+    
   },
   watch: {
     items() {

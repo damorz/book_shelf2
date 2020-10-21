@@ -75,10 +75,7 @@
           Buy this book
         </v-btn>
 
-        <v-btn v-if="this.favId != null" class="btn-row-stack" color="red" icon @click="favoriteClick">
-          <v-icon>mdi-heart</v-icon>
-        </v-btn>
-        <v-btn v-else class="btn-row-stack" icon @click="favoriteClick">
+        <v-btn v-bind:color="isFavorite ? 'red' : 'gray'" class="btn-row-stack" icon @click="favoriteClick">
           <v-icon>mdi-heart</v-icon>
         </v-btn>
 
@@ -198,6 +195,9 @@ export default {
     hasPublisher() {
       return this.bookItem.volumeInfo.publisher != null;
     },
+    isFavorite() {
+      return this.favId != null;
+    }
   },
 };
 </script>
