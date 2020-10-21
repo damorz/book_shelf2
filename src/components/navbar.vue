@@ -66,7 +66,7 @@ export default {
       if (this.$route.path !== "/") {
         this.$router.push({ name: "home" });
       } else {
-        this.$store.dispatch("randomSearchBook");
+        this.$router.go({ name: "home" });
       }
     },
   },

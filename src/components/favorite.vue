@@ -3,17 +3,21 @@
 </template>
 <script>
 export default {
+    data() {
+        return {
+            favoriteBook: ""
+        }
+    },
     mounted() {
-        var archive = {}, // Notice change here
-        keys = Object.keys(localStorage),
-        i = keys.length;
-
+        var favoriteBook = {};
+        var keys = Object.keys(localStorage);
+        var i = keys.length;
         while ( i-- ) {
             if(keys[i] != "favoriteBookCount" && keys[i] != "loglevel:webpack-dev-server") {
-                archive[ keys[i] ] = localStorage.getItem( keys[i] );
+                favoriteBook[ keys[i] ] = localStorage.getItem( keys[i] );
             }
         }
-        console.log( archive);
+        this.favoriteBook = favoriteBook;
     }
 }
 </script>

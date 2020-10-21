@@ -10,8 +10,12 @@ const store = new Vuex.Store({
     bookId: null,
     searchKey: "",
     bookDataBackup: null,
+    backupSearchKey: ""
   },
   mutations: {
+    setBackupSearchKey(state, key) {
+      state.backupSearchKey = key;
+    },
     setBookSearch(state, data) {
       state.bookData = data;
     },
@@ -29,6 +33,9 @@ const store = new Vuex.Store({
     },
   },
   getters: {
+    getBackSearchKey(state) {
+      return state.backupSearchKey;
+    },
     getBookData(state) {
       return state.bookData;
     },
@@ -46,6 +53,22 @@ const store = new Vuex.Store({
     },
   },
   actions: {
+    setBackupSearchKey(context, backupSearchKey) {
+      context.commit("setBackupSearchKey",backupSearchKey);
+    },
+    searchSortedBookList(context, searchKey) {
+      if(this.getters.getBackSearchKey == "") {
+        context.dispatch("randomSearchBook",searchKey);
+      }
+      else {
+        axios
+        .get("https://www.googleapis.com/books/v1/volumes?q=" + this.getters.getBackSearchKey+ searchKey)
+        .then((response) => {
+          context.commit("setBookSearch", response.data);
+        });
+      }
+     
+    },
     searchBookList(context, searchKey) {
       axios
         .get("https://www.googleapis.com/books/v1/volumes?q=" + searchKey)
@@ -68,12 +91,14 @@ const store = new Vuex.Store({
     setBookId(context, id) {
       context.commit("setBookID", id);
     },
-    randomSearchBook(context) {
+    randomSearchBook(context, sortingType) {
       var randomString = Math.random()
         .toString(36)
         .substr(2, 1);
-      context.dispatch("searchBookList", randomString);
+      var searchKey = randomString+"&orderBy="+sortingType;
+      context.dispatch("searchBookList", searchKey);
       setTimeout(function() {
+        context.dispatch("setBackupSearchKey",randomString+"&orderBy=");
         context.dispatch("setBookListBackup");
       }, 2000);
     },

@@ -140,9 +140,6 @@ export default {
       window.open(this.bookItem.volumeInfo.infoLink);
     },
     favoriteClick() {
-      
-      
-
       this.favId = localStorage.getItem(this.bookItem.id);
 
       //Already fav and remove
