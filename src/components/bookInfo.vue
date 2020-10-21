@@ -2,7 +2,7 @@
   <v-container v-if="hasBookInfo" class="fill-height" fluid>
     <v-row class="book-info-container" no-gutters>
       <!-- Image Section -->
-      <v-col cols="3">
+      <v-col cols="4">
         <v-img
           v-if="hasNoImage"
           max-height="100%"
@@ -29,7 +29,7 @@
       </v-col>
 
       <!-- Title Section -->
-      <v-col cols="5">
+      <v-col cols="8">
         <h1>{{ bookItem.volumeInfo.title }}</h1>
         <span v-if="hasAuthor">
           by
@@ -84,7 +84,6 @@
 
         Add to favorite
       </v-col>
-      <v-col cols="4"> </v-col>
     </v-row>
 
     <!-- Detail Section -->

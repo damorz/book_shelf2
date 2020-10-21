@@ -8,7 +8,7 @@
 export default {
   props: ["sortingWord"],
   mounted() {
-    this.$store.dispatch("randomSearchBook","newest");
+    this.$store.dispatch("randomSearchBook","relevance");
   },
   computed: {
     items() {

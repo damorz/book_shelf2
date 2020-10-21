@@ -46,11 +46,16 @@
                 class="btn-row-stack"
                 color="red"
                 icon
-                @click="favoriteClick"
+                @click="favoriteClick(item.id)"
               >
                 <v-icon>mdi-heart</v-icon>
               </v-btn>
-              <v-btn v-else class="btn-row-stack" icon @click="favoriteClick">
+              <v-btn
+              v-else
+                class="btn-row-stack"
+                icon
+                @click="favoriteClick(item.id)"
+              >
                 <v-icon>mdi-heart</v-icon>
               </v-btn>
 
@@ -69,35 +74,32 @@ export default {
   data() {
     return {
       keys: {},
-      currentFavId: null
+      currentFavId: {},
+      favCount: 0,
+
     };
   },
   methods: {
-    checkFav(id) {
-      this.currentFavId = localStorage.getItem(id);
-      if(this.currentFavId != id) {
-        return false;
-      }
-      return true;
-    },
-    favoriteClick() {
-      this.favId = localStorage.getItem(this.bookItem.id);
-
+    favoriteClick(id) {
+      this.favCount = parseInt(localStorage.getItem("favoriteBookCount"));
+      this.currentFavId[id] = localStorage.getItem(id);
+      console.log(this.currentFavId[id]);
+      
+       //Fav
+      if (this.currentFavId[id] != id) {
+        localStorage.setItem(id, id);
+        localStorage.setItem("favoriteBookCount", this.favCount + 1);
+        this.favCount++;
+        this.currentFavId[id] = localStorage.getItem(id);
+      } 
       //Already fav and remove
-      if(this.favId != null) {
-        localStorage.removeItem(this.bookItem.id);
-        localStorage.setItem("favoriteBookCount",this.favCount - 1 );
-        this.favCount --;
-        this.favId = null;
-      }
-
-      //Fav
       else {
-        localStorage.setItem(this.bookItem.id,this.bookItem.id);
-        localStorage.setItem("favoriteBookCount",this.favCount + 1 );
-        this.favCount ++;
-        this.favId = localStorage.getItem(this.bookItem.id);
+        localStorage.removeItem(id);
+        localStorage.setItem("favoriteBookCount", this.favCount - 1);
+        this.favCount--;
+        this.currentFavId[id] = null;
       }
+     
     },
     goToBookInfo(bookId) {
       this.$store.dispatch("searchBookList", bookId);
@@ -113,18 +115,31 @@ export default {
       return key;
     },
     hasKey(key) {
-      return this.keys[key];
+      if (this.keys[key] == false) {
+        return false;
+      }
+      return true;
+    },
+    checkFav(id) {
+      if (localStorage.getItem(id) != id) {
+        return false;
+      }
+      return true;
     },
   },
   computed: {
     hasBookItem() {
       return this.items != null;
     },
+    currentcheckFav() {
+      
+      return true;
+    }
   },
   watch: {
-    items(){
+    items() {
       this.keys = {};
     },
-  }
+  },
 };
 </script>

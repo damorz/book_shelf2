@@ -10,7 +10,7 @@ const store = new Vuex.Store({
     bookId: null,
     searchKey: "",
     bookDataBackup: null,
-    backupSearchKey: ""
+    backupSearchKey: "",
   },
   mutations: {
     setBackupSearchKey(state, key) {
@@ -79,6 +79,7 @@ const store = new Vuex.Store({
     searchBookListBySearchBar(context, searchKey) {
       if (searchKey == this.state.searchKey) {
         context.dispatch("searchBookList", searchKey);
+        context.dispatch("setBackupSearchKey",searchKey+"&orderBy=");
       }
     },
     searchBook(context, id) {
