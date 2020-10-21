@@ -121,10 +121,10 @@ export default {
       return this.items != null;
     },
   },
-  // watch: {
-  //   items(){
-  //     this.keys = {};
-  //   },
-  // }
+  watch: {
+    items(){
+      this.keys = {};
+    },
+  }
 };
 </script>
