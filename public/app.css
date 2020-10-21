@@ -29,6 +29,7 @@
 .book-info-container {
   background-color: white;
   align-items: center;
+  padding: 3% 0;
 }
 
 .price-block {
@@ -52,4 +53,23 @@
 
 .text-price {
   color: rgb(30, 49, 90);
+}
+
+.text-gray {
+  color: rgb(196, 196, 196);
+}
+
+.line-through-text {
+  text-decoration-line: line-through;
+}
+
+.description-title {
+  margin-top: 2%;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  z-index: 0;
 }
