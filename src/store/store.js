@@ -67,7 +67,6 @@ const store = new Vuex.Store({
           context.commit("setBookSearch", response.data);
         });
       }
-     
     },
     searchBookList(context, searchKey) {
       axios
