@@ -25,6 +25,7 @@ Vue.component("nav-bar", require("./components/navbar.vue").default);
 Vue.component("footer-bar", require("./components/footer.vue").default);
 Vue.component("bookList", require("./components/bookList.vue").default);
 Vue.component("bookItem", require("./components/bookItem.vue").default);
+Vue.component("favoriteBookList", require("./components/favoriteBookList.vue").default);
 
 const router = new VueRouter({
   mode: "history",

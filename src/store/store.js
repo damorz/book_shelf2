@@ -6,6 +6,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     bookData: null,
+    favoriteBookData: null,
     bookInfo: null,
     bookId: null,
     searchKey: "",
@@ -13,6 +14,9 @@ const store = new Vuex.Store({
     backupSearchKey: "",
   },
   mutations: {
+    setFavoriteBookData(state, data) {
+      state.favoriteBookData = data;
+    },
     setBackupSearchKey(state, key) {
       state.backupSearchKey = key;
     },
@@ -33,6 +37,9 @@ const store = new Vuex.Store({
     },
   },
   getters: {
+    getFavoriteBookData(state) {
+      return state.favoriteBookData;
+    },
     getBackSearchKey(state) {
       return state.backupSearchKey;
     },
@@ -53,6 +60,18 @@ const store = new Vuex.Store({
     },
   },
   actions: {
+    searchfavoriteBookData(context, searchId) {
+      var favoriteBook = [];
+      var i = 0;
+      searchId.forEach(id => {
+        axios
+        .get("https://www.googleapis.com/books/v1/volumes/" + id)
+        .then((response) => {
+          favoriteBook[i++] = response.data;
+        });
+      });
+      context.commit("setFavoriteBookData",favoriteBook);
+    },
     setBackupSearchKey(context, backupSearchKey) {
       context.commit("setBackupSearchKey",backupSearchKey);
     },
