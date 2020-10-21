@@ -5,7 +5,6 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    favoriteBookCount: 0,
     bookData: null,
     bookInfo: null,
     bookId: null,
@@ -13,9 +12,6 @@ const store = new Vuex.Store({
     bookDataBackup: null,
   },
   mutations: {
-    setfavoriteBookCount(state, count) {
-      state.favoriteBookCount = count;
-    },
     setBookSearch(state, data) {
       state.bookData = data;
     },
@@ -33,9 +29,6 @@ const store = new Vuex.Store({
     },
   },
   getters: {
-    getFavoriteBookCount(state) {
-      return state.favoriteBookCount;
-    },
     getBookData(state) {
       return state.bookData;
     },
