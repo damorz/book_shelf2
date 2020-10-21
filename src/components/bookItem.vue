@@ -60,11 +60,11 @@ export default {
   data() {
     return {
       favCount: 0,
-      favId: ""
+      favBook: null
     };
   },
   mounted() {
-    this.favId = localStorage.getItem(this.item.id);
+    this.favBook = JSON.parse(localStorage.getItem(this.item.id));
     this.favCount = parseInt(localStorage.getItem("favoriteBookCount"));
     if (isNaN(this.favCount)) {
         this.favCount = 0;
@@ -73,20 +73,20 @@ export default {
   },
   methods: {
     favoriteClick() {
-      this.favId = localStorage.getItem(this.item.id);
+      this.favBook = JSON.parse(localStorage.getItem(this.item.id));
       //Already fav and remove
-      if(this.favId != null) {
+      if(this.favBook != null) {
         localStorage.removeItem(this.item.id);
         localStorage.setItem("favoriteBookCount",this.favCount - 1 );
         this.favCount --;
-        this.favId = null;
+        this.favBook = null;
       }
       //Fav
       else {
-        localStorage.setItem(this.item.id,this.item.id);
+        localStorage.setItem(this.item.id,JSON.stringify(this.item));
         localStorage.setItem("favoriteBookCount",this.favCount + 1 );
         this.favCount ++;
-        this.favId = localStorage.getItem(this.item.id);
+        this.favBook = JSON.parse(localStorage.getItem(this.item.id));
       }
     },
     goToBookInfo(bookId) {
@@ -94,16 +94,10 @@ export default {
       this.$store.dispatch("searchBook", bookId);
       this.$router.push({ name: "book", params: { bookId: bookId } });
     },
-    // checkFav(id) {
-    //   if (localStorage.getItem(id) != id) {
-    //     return false;
-    //   }
-    //   return true;
-    // },
   },
   computed: {
     isFavorite() {
-      return this.favId != null;
+      return this.favBook != null;
     }
   },
 };

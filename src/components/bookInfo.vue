@@ -119,12 +119,12 @@ export default {
   data() {
     return {
       favCount: null,
-      favId: null,
+      favBook: null,
     };
   },
   mounted() {
     this.$store.dispatch("searchBook", this.$route.params.bookId);
-    this.favId = localStorage.getItem(this.$route.params.bookId);
+    this.favBook = localStorage.getItem(this.$route.params.bookId);
     this.favCount = parseInt(localStorage.getItem("favoriteBookCount"));
     if (isNaN(this.favCount)) {
         this.favCount = 0;
@@ -136,22 +136,22 @@ export default {
       window.open(this.bookItem.volumeInfo.infoLink);
     },
     favoriteClick() {
-      this.favId = localStorage.getItem(this.bookItem.id);
+      this.favBook = JSON.parse(localStorage.getItem(this.bookItem.id));
 
       //Already fav and remove
-      if(this.favId != null) {
+      if(this.favBook != null) {
         localStorage.removeItem(this.bookItem.id);
         localStorage.setItem("favoriteBookCount",this.favCount - 1 );
         this.favCount --;
-        this.favId = null;
+        this.favBook = null;
       }
 
       //Fav
       else {
-        localStorage.setItem(this.bookItem.id,this.bookItem.id);
+        localStorage.setItem(this.bookItem.id,JSON.stringify(this.bookItem));
         localStorage.setItem("favoriteBookCount",this.favCount + 1 );
         this.favCount ++;
-        this.favId = localStorage.getItem(this.bookItem.id);
+        this.favBook = JSON.parse(localStorage.getItem(this.bookItem.id));
       }
     },
   },
@@ -196,7 +196,7 @@ export default {
       return this.bookItem.volumeInfo.publisher != null;
     },
     isFavorite() {
-      return this.favId != null;
+      return this.favBook != null;
     }
   },
 };
