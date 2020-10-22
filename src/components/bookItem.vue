@@ -1,5 +1,5 @@
 <template>
-  <v-list-item class="book-item">
+  <v-list-item v-if="shwFavoriteBook" class="book-item">
     <v-img
       v-if="item.volumeInfo.imageLinks == null"
       max-height="100%"
@@ -60,7 +60,8 @@ export default {
   data() {
     return {
       favCount: 0,
-      favBook: null
+      favBook: null,
+      shwFavoriteBook: true
     };
   },
   mounted() {
@@ -88,6 +89,12 @@ export default {
         this.favCount ++;
         this.favBook = JSON.parse(localStorage.getItem(this.item.id));
       }
+      console.log(this.$route.path);
+      if(this.$route.path == "/favorite") {
+        if(this.favBook == null) {
+          this.shwFavoriteBook = false;
+        }
+      }
     },
     goToBookInfo(bookId) {
       this.$store.dispatch("searchBookList", bookId);
@@ -98,7 +105,7 @@ export default {
   computed: {
     isFavorite() {
       return this.favBook != null;
-    }
+    },
   },
 };
 </script>
