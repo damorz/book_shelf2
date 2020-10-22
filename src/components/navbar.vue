@@ -46,7 +46,6 @@ export default {
     };
   },
   mounted() {
-    console.log("PATH : " + this.$route.path);
     if (localStorage.getItem("favoriteBookCount") == null) {
       localStorage.setItem("favoriteBookCount", 0);
     }
@@ -71,7 +70,6 @@ export default {
     },
   },
   watch: {
-    //fix check input box &&
     searchBar() {
       this.$store.dispatch("setSearchKey", this.searchBar);
     },

@@ -42,14 +42,14 @@ export default {
   },
   watch: {
     sortingWord() {
-      console.log("in BoolList : ",this.filterType);
       this.$store.dispatch("setFilterType",this.filterType);
-      this.$store.dispatch("searchSortedBookList", this.sortingWord);
+      this.$store.dispatch("setSortType",this.sortingWord);
+      this.$store.dispatch("searchSortedBookList");
     },
     filterType() {
-      console.log("in BoolList : ",this.filterType);
       this.$store.dispatch("setFilterType",this.filterType);
-      this.$store.dispatch("searchSortedBookList", this.sortingWord);
+      this.$store.dispatch("setSortType",this.sortingWord);
+      this.$store.dispatch("searchSortedBookList");
     },
     items() {
       this.keys = {};

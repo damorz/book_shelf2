@@ -1,5 +1,5 @@
 <template>
-  <v-list v-if="hasBookItem" style="width:100%" three-line>
+  <v-list v-if="hasBookItem" style="width:100%">
       <div v-for="item in items" :key="item.id">
         <bookItem v-if="item.id" v-bind:item="item"></bookItem>
       </div>
