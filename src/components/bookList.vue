@@ -1,10 +1,8 @@
 <template>
-  <v-list three-line>
-    <div v-if="hasBookItem">
+  <v-list v-if="hasBookItem" style="width:100%;" three-line>
       <div v-for="item in items.items" :key="getkey(item.id)">
         <bookItem v-if="hasKey(item.id)" v-bind:item="item"></bookItem>
       </div>
-    </div>
   </v-list>
 </template>
 

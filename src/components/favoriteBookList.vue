@@ -1,10 +1,8 @@
 <template>
-  <v-list three-line>
-    <div v-if="hasBookItem">
+  <v-list v-if="hasBookItem" style="width:100%" three-line>
       <div v-for="item in items" :key="item.id">
         <bookItem v-if="item.id" v-bind:item="item"></bookItem>
       </div>
-    </div>
   </v-list>
 </template>
 
@@ -31,7 +29,7 @@ export default {
       return favoriteBook;
     },
     hasBookItem() {
-      return this.items != "undefinded";
+      return this.items != "undefinded" || this.items != null;
     },
   },
 };

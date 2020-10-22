@@ -23,14 +23,12 @@
     </v-img>
     <v-list-item-content class="book-list-content">
       <h3>{{ item.volumeInfo.title }}</h3>
-      <v-list-item-subtitle>
-        {{ item.volumeInfo.description }}
-      </v-list-item-subtitle>
+      <v-list-item-subtitle class="ml-auto" v-html="item.volumeInfo.description"></v-list-item-subtitle>
       <v-row>
-        <v-col cols="1" sm="2">
+        <v-col cols="2">
           <v-btn
             @click="goToBookInfo(item.id)"
-            class="ma-2"
+            class="ml-auto mr-auto"
             depressed
             dark
             color="black"
@@ -38,7 +36,7 @@
             Read more
           </v-btn>
         </v-col>
-        <v-col>
+        <v-col cols="10">
           <v-btn
             class="btn-row-stack"
             v-bind:color="isFavorite ? 'red' : 'gray'"

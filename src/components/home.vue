@@ -10,7 +10,6 @@
           <v-btn value="newest" depressed>
             <h4>Newest</h4>
           </v-btn>
-          
         </v-btn-toggle>
       </v-col>
     </v-row>
