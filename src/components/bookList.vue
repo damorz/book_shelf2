@@ -1,6 +1,6 @@
 <template>
   <v-list v-if="hasBookItem" style="width:100%;" three-line>
-      <div v-for="item in items.items" :key="getkey(item.id)">
+      <div v-for="item in items.items" :key="getkey(item)">
         <bookItem v-if="hasKey(item.id)" v-bind:item="item"></bookItem>
       </div>
   </v-list>
@@ -23,13 +23,13 @@ export default {
       }
       return true;
     },
-    getkey(key) {
-      if (this.keys[key] != null) {
-        this.keys[key] = false;
+    getkey(item) {
+      if (this.keys[item.id] != null) {
+        this.keys[item.id] = false;
       } else {
-        this.keys[key] = true;
+        this.keys[item.id] = true;
       }
-      return key;
+      return item.id+item.etag;
     },
   },
   computed: {
