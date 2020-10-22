@@ -36,7 +36,7 @@
             Read more
           </v-btn>
         </v-col>
-        <v-col cols="10">
+        <v-col cols="7">
           <v-btn
             class="btn-row-stack"
             v-bind:color="isFavorite ? 'red' : 'gray'"
@@ -46,6 +46,14 @@
             <v-icon>mdi-heart</v-icon>
           </v-btn>
           Add to favorite
+        </v-col>
+        <v-col cols="3">
+          <v-alert v-if="item.saleInfo.isEbook" type="info" dense>
+            E-book
+          </v-alert>
+          <v-alert v-if="!item.saleInfo.isEbook" type="warning" dense>
+            Book
+          </v-alert>
         </v-col>
       </v-row>
     </v-list-item-content>

@@ -78,7 +78,6 @@
         <v-btn v-bind:color="isFavorite ? 'red' : 'gray'" class="btn-row-stack" icon @click="favoriteClick">
           <v-icon>mdi-heart</v-icon>
         </v-btn>
-
         Add to favorite
       </v-col>
     </v-row>
@@ -109,6 +108,12 @@
         <h3 class="description-title">Publisher :</h3>
         <span>{{ bookItem.volumeInfo.publisher }}</span>
         <span v-if="!hasPublisher">-</span>
+
+        <!-- Categories -->
+        <h3 class="description-title">Book Type :</h3>
+          <span v-if="bookItem.saleInfo.isEbook">E-book</span>
+          <span v-if="!bookItem.saleInfo.isEbook">Book</span>
+
       </v-col>
     </v-row>
   </v-container>
