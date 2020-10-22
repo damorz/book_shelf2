@@ -6,17 +6,17 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     bookData: null,
-    // favoriteBookData: null,
     bookInfo: null,
     bookId: null,
     searchKey: "",
     bookDataBackup: null,
     backupSearchKey: "",
+    filterType: null,
   },
   mutations: {
-    // setFavoriteBookData(state, data) {
-    //   state.favoriteBookData = data;
-    // },
+    setFilterType(state, word) {
+      state.filterType = word;
+    },
     setBackupSearchKey(state, key) {
       state.backupSearchKey = key;
     },
@@ -37,10 +37,10 @@ const store = new Vuex.Store({
     },
   },
   getters: {
-    // getFavoriteBookData(state) {
-    //   return state.favoriteBookData;
-    // },
-    getBackSearchKey(state) {
+    getFilterType(state) {
+      return state.filterType;
+    },
+    getBackupSearchKey(state) {
       return state.backupSearchKey;
     },
     getBookData(state) {
@@ -60,31 +60,37 @@ const store = new Vuex.Store({
     },
   },
   actions: {
-    // searchfavoriteBookData(context, searchId) {
-    //   var favoriteBook = [];
-    //   var i = 0;
-    //   searchId.forEach(id => {
-    //     axios
-    //     .get("https://www.googleapis.com/books/v1/volumes/" + id)
-    //     .then((response) => {
-    //       favoriteBook[i++] = response.data;
-    //     });
-    //   });
-    //   context.commit("setFavoriteBookData",favoriteBook);
-    // },
+    setFilterType(context, filter) {
+      console.log(filter);
+      context.commit("setFilterType", filter);
+    },
     setBackupSearchKey(context, backupSearchKey) {
-      context.commit("setBackupSearchKey",backupSearchKey);
+      context.commit("setBackupSearchKey", backupSearchKey);
     },
     searchSortedBookList(context, searchKey) {
-      if(this.getters.getBackSearchKey == "") {
-        context.dispatch("randomSearchBook",searchKey);
-      }
+      if (this.getters.getBackupSearchKey == "") {
+        context.dispatch("randomSearchBook", searchKey);
+      } 
       else {
-        axios
-        .get("https://www.googleapis.com/books/v1/volumes?q=" + this.getters.getBackSearchKey+ searchKey)
-        .then((response) => {
-          context.commit("setBookSearch", response.data);
-        });
+        if (this.getters.getFilterType != undefined && this.getters.getFilterType != null) {
+          axios
+            .get(
+              "https://www.googleapis.com/books/v1/volumes?q=" + this.getters.getBackupSearchKey + searchKey + "&filter=" + this.getters.getFilterType)
+            .then((response) => {
+              context.commit("setBookSearch", response.data);
+            });
+        } 
+        else {
+          axios
+            .get(
+              "https://www.googleapis.com/books/v1/volumes?q=" +
+                this.getters.getBackupSearchKey +
+                searchKey
+            )
+            .then((response) => {
+              context.commit("setBookSearch", response.data);
+            });
+        }
       }
     },
     searchBookList(context, searchKey) {
@@ -97,7 +103,7 @@ const store = new Vuex.Store({
     searchBookListBySearchBar(context, searchKey) {
       if (searchKey == this.state.searchKey) {
         context.dispatch("searchBookList", searchKey);
-        context.dispatch("setBackupSearchKey",searchKey+"&orderBy=");
+        context.dispatch("setBackupSearchKey", searchKey + "&orderBy=");
       }
     },
     searchBook(context, id) {
@@ -111,15 +117,18 @@ const store = new Vuex.Store({
       context.commit("setBookID", id);
     },
     randomSearchBook(context, sortingType) {
-      var randomString = Math.random()
-        .toString(36)
-        .substr(2, 1);
-      var searchKey = randomString+"&orderBy="+sortingType;
+      var randomString = Math.random().toString(36).substr(2, 1);
+      var searchKey = "";
+      if (this.getters.getFilterType != undefined && this.getters.getFilterType != null) {
+        searchKey = randomString + "&orderBy=" + sortingType + "&filter=" + this.getters.getFilterType;
+        context.dispatch("setBackupSearchKey", randomString + "&orderBy=" + "|" + "&filter=");
+      } 
+      else {
+        searchKey = randomString + "&orderBy=" + sortingType;
+        context.dispatch("setBackupSearchKey", randomString + "&orderBy=");
+      }
       context.dispatch("searchBookList", searchKey);
-      setTimeout(function() {
-        context.dispatch("setBackupSearchKey",randomString+"&orderBy=");
-        context.dispatch("setBookListBackup");
-      }, 2000);
+      context.dispatch("setBookListBackup");
     },
     setSearchKey(context, key) {
       context.commit("setSearchKey", key);

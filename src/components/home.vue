@@ -1,13 +1,13 @@
 <template>
   <v-container class="fill-height" fluid>
     <v-row class="mr-auto filter-bar">
-      <v-col class="py-2" cols="4">
+      <v-col class="py-2" cols="3">
         <h3>Sort by:</h3>
         <v-btn-toggle
           v-model="sortingType"
           tile
           mandatory
-          color="blue accent-3"
+          color="red accent-3"
         >
           <v-btn value="relevance">
             <h4>Relevance</h4>
@@ -17,25 +17,26 @@
           </v-btn>
         </v-btn-toggle>
       </v-col>
-      <v-col cols="8">
+      <v-col class="py-2" cols="9">
         <h3>Filter by:</h3>
-        <v-btn-toggle v-model="filterType">
+        <v-btn-toggle tile v-model="filterType" color="red accent-3"
+        >
           <v-btn value="partial">
             <h4>Books</h4>
           </v-btn>
-          <v-btn value="eBooks">
+          <v-btn value="ebooks">
             <h4>E-Books</h4>
           </v-btn>
-          <v-btn value="free-eBooks">
+          <v-btn value="free-ebooks">
             <h4>Free Ebooks</h4>
           </v-btn>
-          <v-btn value="paid-eBooks">
+          <v-btn value="paid-ebooks">
             <h4>Paid EBooks</h4>
           </v-btn>
         </v-btn-toggle>
       </v-col>
     </v-row>
-    <bookList v-bind:sortingWord="sortingType" :filterType="filterType"></bookList>
+    <bookList v-bind:sortingWord="sortingType" v-bind:filterType="filterType"></bookList>
   </v-container>
 </template>
 
@@ -44,7 +45,7 @@ export default {
   data() {
     return {
       sortingType: "",
-      filterType: undefined
+      filterType: null
     };
   },
   name: "home",

@@ -42,6 +42,13 @@ export default {
   },
   watch: {
     sortingWord() {
+      console.log("in BoolList : ",this.filterType);
+      this.$store.dispatch("setFilterType",this.filterType);
+      this.$store.dispatch("searchSortedBookList", this.sortingWord);
+    },
+    filterType() {
+      console.log("in BoolList : ",this.filterType);
+      this.$store.dispatch("setFilterType",this.filterType);
       this.$store.dispatch("searchSortedBookList", this.sortingWord);
     },
     items() {
