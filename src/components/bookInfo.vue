@@ -85,6 +85,7 @@
     <!-- Detail Section -->
     <v-row style="margin:1% 0" class="book-info-container">
       <v-col cols="11" class="ml-auto mr-auto">
+        
         <!-- Description -->
         <h3 class="description-title">Description :</h3>
         <span

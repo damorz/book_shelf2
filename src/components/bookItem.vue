@@ -71,6 +71,7 @@ export default {
     };
   },
   mounted() {
+    console.log(this.filterType);
     this.favBook = JSON.parse(localStorage.getItem(this.item.id));
     this.favCount = parseInt(localStorage.getItem("favoriteBookCount"));
     if (isNaN(this.favCount)) {

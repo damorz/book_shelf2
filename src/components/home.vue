@@ -21,8 +21,8 @@
         <h3>Filter by:</h3>
         <v-btn-toggle tile v-model="filterType" color="red accent-3"
         >
-          <v-btn value="partial">
-            <h4>Books</h4>
+          <v-btn value="full">
+            <h4>Full Books</h4>
           </v-btn>
           <v-btn value="ebooks">
             <h4>E-Books</h4>
