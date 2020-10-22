@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  props: ["sortingWord"],
+  props: ["sortingWord","filterType"],
   data() {
     return {
       keys: {},

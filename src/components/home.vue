@@ -3,7 +3,12 @@
     <v-row class="mr-auto filter-bar">
       <v-col class="py-2" cols="4">
         <h3>Sort by:</h3>
-        <v-btn-toggle v-model="sortingType" tile mandatory color="blue accent-3">
+        <v-btn-toggle
+          v-model="sortingType"
+          tile
+          mandatory
+          color="blue accent-3"
+        >
           <v-btn value="relevance">
             <h4>Relevance</h4>
           </v-btn>
@@ -12,8 +17,25 @@
           </v-btn>
         </v-btn-toggle>
       </v-col>
+      <v-col cols="8">
+        <h3>Filter by:</h3>
+        <v-btn-toggle v-model="filterType">
+          <v-btn value="partial">
+            <h4>Books</h4>
+          </v-btn>
+          <v-btn value="eBooks">
+            <h4>E-Books</h4>
+          </v-btn>
+          <v-btn value="free-eBooks">
+            <h4>Free Ebooks</h4>
+          </v-btn>
+          <v-btn value="paid-eBooks">
+            <h4>Paid EBooks</h4>
+          </v-btn>
+        </v-btn-toggle>
+      </v-col>
     </v-row>
-    <bookList v-bind:sortingWord="sortingType"></bookList>
+    <bookList v-bind:sortingWord="sortingType" :filterType="filterType"></bookList>
   </v-container>
 </template>
 
@@ -22,6 +44,7 @@ export default {
   data() {
     return {
       sortingType: "",
+      filterType: undefined
     };
   },
   name: "home",
