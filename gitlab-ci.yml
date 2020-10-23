@@ -1,11 +1,13 @@
-image: alpine:latest
-
 pages:
+  image: node:latest
   stage: deploy
   script:
-  - echo 'Nothing to do...'
+    - npm ci
+    - npm run build
+    - mv public public-vue
+    - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
   artifacts:
     paths:
     - public
   only:
-  - master
+  - main
