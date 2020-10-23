@@ -1,16 +1,16 @@
 let routes = [
   {
-    path: "/book_shelf",
+    path: "/",
     name: "home",
     component: require("./components/home.vue").default,
   },
   {
-    path: "/book_shelf/favorite",
+    path: "/favorite",
     name: "favorite",
     component: require("./components/favorite.vue").default,
   },
   {
-    path: "/book_shelf/book/:bookId",
+    path: "/book/:bookId",
     name: "book",
     component: require("./components/bookInfo.vue").default,
   },

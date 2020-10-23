@@ -21,7 +21,7 @@
       :src="item.volumeInfo.imageLinks.smallThumbnail"
     >
     </v-img>
-    
+
     <v-list-item-content class="book-list-content">
       <h3>{{ item.volumeInfo.title }}</h3>
       <v-list-item-subtitle class="ml-auto" v-html="item.volumeInfo.description"></v-list-item-subtitle>
@@ -72,7 +72,6 @@ export default {
     };
   },
   mounted() {
-    console.log(this.filterType);
     this.favBook = JSON.parse(localStorage.getItem(this.item.id));
     this.favCount = parseInt(localStorage.getItem("favoriteBookCount"));
     if (isNaN(this.favCount)) {
