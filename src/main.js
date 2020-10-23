@@ -28,7 +28,7 @@ Vue.component("bookItem", require("./components/bookItem.vue").default);
 Vue.component("favoriteBookList", require("./components/favoriteBookList.vue").default);
 
 const router = new VueRouter({
-  mode: "history",
+  mode: "hash",
   routes: routes,
 });
 
