@@ -34,7 +34,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.fullPath === "/book") {
-    next("/");
+    return next("/"); //ให้มีการ return เพื่อป้องกันการทำงานต่อ
   }
   next();
 });

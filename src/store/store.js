@@ -9,8 +9,8 @@ const store = new Vuex.Store({
     bookInfo: null,
     bookId: null,
     searchKey: "",
-    bookDataBackup: null,
     backupSearchKey: "",
+    bookDataBackup: null,
     filterType: null,
     sortType: null
   },

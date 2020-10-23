@@ -1,5 +1,6 @@
 <template>
   <v-container fluid>
+    <!-- filter section -->
     <v-row class="mr-auto filter-bar">
       <v-col class="py-2" cols="3">
         <h3>Sort by:</h3>
@@ -36,6 +37,7 @@
         </v-btn-toggle>
       </v-col>
     </v-row>
+    <!-- Book section -->
     <bookList v-bind:sortingWord="sortingType" v-bind:filterType="filterType"></bookList>
   </v-container>
 </template>

@@ -6,7 +6,5 @@ module.exports = {
     public: 'localhost:8081',
     disableHostCheck: true,
   },
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/' + process.env.CI_PROJECT_NAME + '/'
-    : '/'
+  publicPath: ''
 }

@@ -21,6 +21,7 @@
       :src="item.volumeInfo.imageLinks.smallThumbnail"
     >
     </v-img>
+    
     <v-list-item-content class="book-list-content">
       <h3>{{ item.volumeInfo.title }}</h3>
       <v-list-item-subtitle class="ml-auto" v-html="item.volumeInfo.description"></v-list-item-subtitle>
