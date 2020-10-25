@@ -7,5 +7,5 @@ module.exports = {
     public: 'localhost:8081',
     disableHostCheck: true,
   },
-  publicPath: process.env.NODE_ENV === 'production' ? '/book_shelf/' : '/'
+  publicPath: ''
 }
