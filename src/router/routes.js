@@ -1,24 +1,28 @@
 /* eslint-disable no-undef */
+import Home from '../components/Home.vue';
+import Favorite from '../components/Home.vue';
+import BookInfo from '../components/Home.vue';
+
 let routes = [
   {
     path: "/",
     name: "Home",
-    component: require("../components/Home.vue").default,
+    component: Home,
   },
   {
     path: "/favorite",
     name: "Favorite",
-    component: require("../components/Favorite.vue").default,
+    component: Favorite,
   },
   {
     path: "/book/:bookId",
     name: "Book",
-    component: require("../components/BookInfo.vue").default,
+    component: BookInfo,
     props: true 
   },
   {
     path: "*",
-    component: require("../components/Home.vue").default,
+    component: Home
   },
 ];
 export default routes;
