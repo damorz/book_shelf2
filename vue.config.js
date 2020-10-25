@@ -7,5 +7,5 @@ module.exports = {
     public: 'localhost:8081',
     disableHostCheck: true,
   },
-  publicPath: ''
+  publicPath: process.env.BASE_URL
 }
