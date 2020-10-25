@@ -14,11 +14,11 @@ Vue.use(vueDebounce);
 
 Vue.config.productionTip = false;
 
-Vue.component("nav-bar", require("./components/Navbar.vue").default);
-Vue.component("footer-bar", require("./components/Footer.vue").default);
-Vue.component("book-item", require("./components/BookItem.vue").default);
-Vue.component("book-list", require("./components/BookList.vue").default);
-Vue.component("favorite-book-list", require("./components/FavoriteBookList.vue").default);
+Vue.component("nav-bar", require("./components/navbar.vue").default);
+Vue.component("footer-bar", require("./components/footer.vue").default);
+Vue.component("book-item", require("./components/bookItem.vue").default);
+Vue.component("book-list", require("./components/bookList.vue").default);
+Vue.component("favorite-book-list", require("./components/favoriteBookList.vue").default);
 
 Vue.use(vueDebounce, {
   listenTo: "input",
