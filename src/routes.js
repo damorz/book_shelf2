@@ -2,17 +2,17 @@
 let routes = [
   {
     path: "/",
-    name: "Home",
+    name: "home",
     component: require("./components/Home.vue").default,
   },
   {
     path: "/favorite",
-    name: "Favorite",
+    name: "favorite",
     component: require("./components/Favorite.vue").default,
   },
   {
     path: "/book/:bookId",
-    name: "Book",
+    name: "book",
     component: require("./components/BookInfo.vue").default,
     props: true 
   },

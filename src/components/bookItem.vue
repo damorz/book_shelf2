@@ -96,7 +96,7 @@ export default {
     goToBookInfo(bookId) {
       this.$store.dispatch("book/searchBookList", bookId);
       this.$store.dispatch("book/searchBook", bookId);
-      this.$router.push({ name: "Book", params: { bookId } });
+      this.$router.push({ name: "book", params: { bookId } });
     },
   },
 };

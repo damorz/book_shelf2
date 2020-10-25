@@ -59,13 +59,13 @@ export default {
       }
     },
     goFavPage() {
-      this.$router.push({ name: "Favorite" });
+      this.$router.push({ name: "favorite" });
     },
     goHomePage() {
       if (this.$route.path !== "/") {
-        this.$router.push({ name: "Home" });
+        this.$router.push({ name: "home" });
       } else {
-        this.$router.go({ name: "Home" });
+        this.$router.go({ name: "home" });
       }
     },
   },
