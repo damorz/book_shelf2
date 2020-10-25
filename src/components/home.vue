@@ -43,11 +43,7 @@
 </template>
 
 <script>
-import BookList from './BookList';
 export default {
-  components: {
-    'book-list': BookList
-  },
   data() {
     return {
       sortingType: "",
