@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
-import Home from '../components/Home.vue';
-import Favorite from '../components/Home.vue';
-import BookInfo from '../components/Home.vue';
+import Home from "../components/Home";
+import Favorite from "../components/Favorite";
+import BookInfo from "../components/BookInfo";
 
 let routes = [
   {
