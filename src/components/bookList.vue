@@ -1,20 +1,37 @@
 <template>
   <v-list v-if="hasBookItem" style="width:100%;" three-line>
       <div v-for="item in items.items" :key="getkey(item)">
-        <bookItem v-if="hasKey(item.id)" v-bind:item="item"></bookItem>
+        <book-item v-if="hasKey(item.id)" :item="item"></book-item>
       </div>
   </v-list>
 </template>
 
 <script>
+import BookItem from './BookItem';
 export default {
-  props: ["sortingWord","filterType"],
+  props: {
+    sortingWord: {
+      type: String
+    },
+    filterType: {
+      type: String
+    }
+  },
+  components: {
+    'book-item': BookItem
+  },
   data() {
     return {
       keys: {},
     };
   },
-  mounted() {
+  computed: {
+    items() {
+      return this.$store.getters["book/getBookData"];
+    },
+    hasBookItem() {
+      return this.items !== null;
+    },
   },
   methods: {
     hasKey(key) {
@@ -32,24 +49,18 @@ export default {
       return item.id+item.etag;
     },
   },
-  computed: {
-    items() {
-      return this.$store.getters.getBookData;
-    },
-    hasBookItem() {
-      return this.items != null;
-    },
-  },
   watch: {
     sortingWord() {
-      this.$store.dispatch("setFilterType",this.filterType);
-      this.$store.dispatch("setSortType",this.sortingWord);
-      this.$store.dispatch("searchSortedBookList");
+      // console.log(this.sortingWord);
+      this.$store.dispatch("book/setFilterType",this.filterType);
+      this.$store.dispatch("book/setSortType",this.sortingWord);
+      this.$store.dispatch("book/searchSortedBookList");
     },
     filterType() {
-      this.$store.dispatch("setFilterType",this.filterType);
-      this.$store.dispatch("setSortType",this.sortingWord);
-      this.$store.dispatch("searchSortedBookList");
+      // console.log(this.sortingWord);
+      this.$store.dispatch("book/setFilterType",this.filterType);
+      this.$store.dispatch("book/setSortType",this.sortingWord);
+      this.$store.dispatch("book/searchSortedBookList");
     },
     items() {
       this.keys = {};

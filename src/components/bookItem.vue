@@ -1,5 +1,5 @@
 <template>
-  <v-list-item v-if="shwFavoriteBook" class="book-item">
+  <v-list-item v-if="showFavoriteBook" class="book-item">
     <v-img
       v-if="item.volumeInfo.imageLinks == null"
       max-height="100%"
@@ -66,52 +66,37 @@ export default {
   props: ["item"],
   data() {
     return {
-      favCount: 0,
-      favBook: null,
-      shwFavoriteBook: true
+      isFavorite: false
     };
   },
-  mounted() {
-    this.favBook = JSON.parse(localStorage.getItem(this.item.id));
-    this.favCount = parseInt(localStorage.getItem("favoriteBookCount"));
-    if (isNaN(this.favCount)) {
-        this.favCount = 0;
-        localStorage.setItem("favoriteBookCount",0);
+  computed: {
+    showFavoriteBook() {
+      if(this.$route.path === "/favorite") {
+        return this.isFavorite;
       }
+      else {
+        return true;
+      }
+    },
+  },
+  mounted() {
+    let favCount = parseInt(localStorage.getItem("favoriteBookCount"));
+    if (isNaN(favCount)) {
+      localStorage.setItem("favoriteBookCount",0);
+    }
+    
+    this.$store.dispatch("book/isFavoritedCheck", this.item.id);
+    this.isFavorite = this.$store.getters["book/isFavorited"];
   },
   methods: {
     favoriteClick() {
-      this.favBook = JSON.parse(localStorage.getItem(this.item.id));
-      //Already fav and remove
-      if(this.favBook != null) {
-        localStorage.removeItem(this.item.id);
-        localStorage.setItem("favoriteBookCount",this.favCount - 1 );
-        this.favCount --;
-        this.favBook = null;
-      }
-      //Fav
-      else {
-        localStorage.setItem(this.item.id,JSON.stringify(this.item));
-        localStorage.setItem("favoriteBookCount",this.favCount + 1 );
-        this.favCount ++;
-        this.favBook = JSON.parse(localStorage.getItem(this.item.id));
-      }
-      console.log(this.$route.path);
-      if(this.$route.path == "/favorite") {
-        if(this.favBook == null) {
-          this.shwFavoriteBook = false;
-        }
-      }
+      this.$store.dispatch("book/onClickFavorite", this.item);
+      this.isFavorite = !this.isFavorite;
     },
     goToBookInfo(bookId) {
-      this.$store.dispatch("searchBookList", bookId);
-      this.$store.dispatch("searchBook", bookId);
-      this.$router.push({ name: "book", params: { bookId: bookId } });
-    },
-  },
-  computed: {
-    isFavorite() {
-      return this.favBook != null;
+      this.$store.dispatch("book/searchBookList", bookId);
+      this.$store.dispatch("book/searchBook", bookId);
+      this.$router.push({ name: "Book", params: { bookId } });
     },
   },
 };

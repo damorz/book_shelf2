@@ -1,32 +1,21 @@
 <template>
   <v-list v-if="hasBookItem" style="width:100%">
       <div v-for="item in items" :key="item.id">
-        <bookItem v-if="item.id" v-bind:item="item"></bookItem>
+        <book-item v-if="item.id" :item="item"></book-item>
       </div>
   </v-list>
 </template>
 
 <script>
+import BookItem from './BookItem';
 export default {
-    data() {
-        return {
-            data: null
-        }
-    },
-  mounted() {
+  components: {
+    'book-item': BookItem
   },
   computed: {
     items() {
-        var favoriteBook = [];
-        var keys = Object.keys(localStorage);
-        var i = keys.length;
-        var count = 0;
-        while ( i-- ) {
-            if(keys[i] != "favoriteBookCount" && keys[i] != "loglevel:webpack-dev-server") {
-                favoriteBook[count++] = JSON.parse(localStorage.getItem( keys[i] ));
-            }
-        }
-      return favoriteBook;
+      this.$store.dispatch("book/loadFavoritedBook");
+      return this.$store.getters["book/getFavoritedBookData"];
     },
     hasBookItem() {
       return this.items != "undefinded" || this.items != null;

@@ -53,25 +53,25 @@ export default {
   methods: {
     searchBySearchBar() {
       if (this.searchBar != "") {
-        this.$store.dispatch("searchBookListBySearchBar", this.searchBar);
+        this.$store.dispatch("book/searchBookListBySearchBar", this.searchBar);
       } else {
-        this.$store.dispatch("restoreBookData");
+        this.$store.dispatch("book/restoreBookData");
       }
     },
     goFavPage() {
-      this.$router.push({ name: "favorite" });
+      this.$router.push({ name: "Favorite" });
     },
     goHomePage() {
       if (this.$route.path !== "/") {
-        this.$router.push({ name: "home" });
+        this.$router.push({ name: "Home" });
       } else {
-        this.$router.go({ name: "home" });
+        this.$router.go({ name: "Home" });
       }
     },
   },
   watch: {
     searchBar() {
-      this.$store.dispatch("setSearchKey", this.searchBar);
+      this.$store.dispatch("book/setSearchKey", this.searchBar);
     },
   },
 };

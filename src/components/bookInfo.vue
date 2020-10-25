@@ -110,7 +110,7 @@
         <span>{{ bookItem.volumeInfo.publisher }}</span>
         <span v-if="!hasPublisher">-</span>
 
-        <!-- Categories -->
+        <!-- Book?EBook? -->
         <h3 class="description-title">Book Type :</h3>
           <span v-if="bookItem.saleInfo.isEbook">E-book</span>
           <span v-if="!bookItem.saleInfo.isEbook">Book</span>
@@ -122,51 +122,23 @@
 
 <script>
 export default {
+  props: {
+    bookId: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
-      favCount: null,
-      favBook: null,
+      isFavorite: false
     };
-  },
-  mounted() {
-    this.$store.dispatch("searchBook", this.$route.params.bookId);
-    this.favBook = localStorage.getItem(this.$route.params.bookId);
-    this.favCount = parseInt(localStorage.getItem("favoriteBookCount"));
-    if (isNaN(this.favCount)) {
-        this.favCount = 0;
-        localStorage.setItem("favoriteBookCount",0);
-      }
-  },
-  methods: {
-    goToBuyPage() {
-      window.open(this.bookItem.volumeInfo.infoLink);
-    },
-    favoriteClick() {
-      this.favBook = JSON.parse(localStorage.getItem(this.bookItem.id));
-
-      //Already fav and remove
-      if(this.favBook != null) {
-        localStorage.removeItem(this.bookItem.id);
-        localStorage.setItem("favoriteBookCount",this.favCount - 1 );
-        this.favCount --;
-        this.favBook = null;
-      }
-
-      //Fav
-      else {
-        localStorage.setItem(this.bookItem.id,JSON.stringify(this.bookItem));
-        localStorage.setItem("favoriteBookCount",this.favCount + 1 );
-        this.favCount ++;
-        this.favBook = JSON.parse(localStorage.getItem(this.bookItem.id));
-      }
-    },
   },
   computed: {
     hasBookInfo() {
-      return this.$store.getters.getBookInfo != null;
+      return this.$store.getters["book/getBookInfo"] != null;
     },
     bookItem() {
-      return this.$store.getters.getBookInfo;
+      return this.$store.getters["book/getBookInfo"];
     },
     haveMoreThanOneAuthor() {
       return this.bookItem.volumeInfo.authors.length > 1;
@@ -190,10 +162,7 @@ export default {
       return this.bookItem.volumeInfo.imageLinks == null;
     },
     hasDiscount() {
-      return (
-        this.bookItem.saleInfo.listPrice.amount >
-        this.bookItem.saleInfo.retailPrice.amount
-      );
+      return (this.bookItem.saleInfo.listPrice.amount > this.bookItem.saleInfo.retailPrice.amount);
     },
     hasDescription() {
       return this.bookItem.volumeInfo.description != null;
@@ -201,9 +170,25 @@ export default {
     hasPublisher() {
       return this.bookItem.volumeInfo.publisher != null;
     },
-    isFavorite() {
-      return this.favBook != null;
+  },
+  mounted() {
+    this.$store.dispatch("book/searchBook", this.bookId);
+    this.$store.dispatch("book/isFavoritedCheck", this.bookId);
+    this.isFavorite = this.$store.getters["book/isFavorited"];
+
+    let favCount = parseInt(localStorage.getItem("favoriteBookCount"));
+    if (isNaN(favCount)) {
+      localStorage.setItem("favoriteBookCount",0);
     }
+  },
+  methods: {
+    goToBuyPage() {
+      window.open(this.bookItem.volumeInfo.infoLink);
+    },
+    favoriteClick() {
+      this.$store.dispatch("book/onClickFavorite", this.bookItem);
+      this.isFavorite = !this.isFavorite;
+    },
   },
 };
 </script>
