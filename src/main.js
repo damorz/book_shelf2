@@ -5,7 +5,7 @@ import Vuetify from "vuetify";
 import Vuex from "vuex";
 import store from "./store/store";
 import vueDebounce from "vue-debounce";
-import router from "./router/router"
+import router from "./router"
 
 Vue.use(Vuetify);
 Vue.use(Vuex);
