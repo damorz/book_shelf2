@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import BookItem from './BookItem';
 export default {
   props: {
     sortingWord: {
@@ -16,9 +15,6 @@ export default {
     filterType: {
       type: String
     }
-  },
-  components: {
-    'book-item': BookItem
   },
   data() {
     return {

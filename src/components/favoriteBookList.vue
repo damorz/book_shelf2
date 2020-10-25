@@ -7,11 +7,7 @@
 </template>
 
 <script>
-import BookItem from './BookItem';
 export default {
-  components: {
-    'book-item': BookItem
-  },
   computed: {
     items() {
       this.$store.dispatch("book/loadFavoritedBook");

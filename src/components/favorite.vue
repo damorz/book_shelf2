@@ -4,11 +4,7 @@
   </v-container>
 </template>
 <script>
-import FavoriteBookList from './FavoriteBookList';
 export default {
-  components: {
-    'favorite-book-list': FavoriteBookList
-  },
   data() {
     return {
       favoriteBook: "",
