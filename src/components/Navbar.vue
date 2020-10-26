@@ -3,7 +3,6 @@
     <v-app-bar color="#373737" dark>
       <v-btn @click="goHomePage" depressed color="#373737">
         <v-toolbar-title>
-          <img src="../assets/logo.svg" alt="">
           Book Shelf
         </v-toolbar-title>
       </v-btn>
