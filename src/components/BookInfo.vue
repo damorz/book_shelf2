@@ -1,6 +1,10 @@
 <template>
-  <v-container v-if="hasBookInfo" class="fill-height" fluid>
-    <v-row class="book-info-container" no-gutters>
+  <v-container 
+    v-if="hasBookInfo" 
+    fluid
+    class="fill-height" 
+  >
+    <v-row no-gutters class="book-info-container" >
       <!-- Image Section -->
       <v-col cols="4">
         <v-img
@@ -14,16 +18,16 @@
           v-else-if="hasThumbnail"
           max-height="100%"
           max-width="80%"
-          class="ml-auto mr-auto"
           :src="bookItem.volumeInfo.imageLinks.thumbnail"
+          class="ml-auto mr-auto"
         >
         </v-img>
         <v-img
           v-else
           max-height="100%"
           max-width="80%"
-          class="ml-auto mr-auto"
           :src="bookItem.volumeInfo.imageLinks.smallThumbnail"
+          class="ml-auto mr-auto"
         >
         </v-img>
       </v-col>
@@ -34,29 +38,39 @@
         <span v-if="hasAuthor">
           by
           <span v-for="author in bookItem.volumeInfo.authors" :key="author">
-            {{ author }} <span v-if="haveMoreThanOneAuthor">,</span>
+            {{ author }} 
+            <span v-if="haveMoreThanOneAuthor">,</span>
           </span>
         </span>
         <hr />
         <div v-if="isForSale" class="price-block">
-          <h2 class="text-free" v-if="isFree" style="padding: 7% 0">
+          <h2 
+            v-if="isFree" 
+            class="text-free" 
+            style="padding: 7% 0"
+          >
             FREE !
           </h2>
-          <h1 class="text-price" v-else-if="!hasDiscount" style="padding: 7% 0">
-            {{ bookItem.saleInfo.listPrice.amount }} &nbsp;
-            {{ bookItem.saleInfo.listPrice.currencyCode }}
+          <h1 
+            v-else-if="!hasDiscount" 
+            class="text-price" 
+            style="padding: 7% 0"
+          >
+            {{ bookItem.saleInfo.listPrice.amount }} &nbsp; {{ bookItem.saleInfo.listPrice.currencyCode }}
           </h1>
           <h1
             class="text-gray line-through-text"
             v-if="hasDiscount"
             style="padding: 7% 0 0 0"
           >
-            {{ bookItem.saleInfo.listPrice.amount }} &nbsp;
-            {{ bookItem.saleInfo.listPrice.currencyCode }}
+            {{ bookItem.saleInfo.listPrice.amount }} &nbsp; {{ bookItem.saleInfo.listPrice.currencyCode }}
           </h1>
-          <h1 class="text-error" style="padding: 0 0 7% 0" v-if="hasDiscount">
-            {{ bookItem.saleInfo.retailPrice.amount }}&nbsp;
-            {{ bookItem.saleInfo.retailPrice.currencyCode }}
+          <h1 
+            v-if="hasDiscount"
+            class="text-error" 
+            style="padding: 0 0 7% 0"
+          >
+            {{ bookItem.saleInfo.retailPrice.amount }}&nbsp; {{ bookItem.saleInfo.retailPrice.currencyCode }}
           </h1>
         </div>
         <div v-else class="price-block">
@@ -67,15 +81,20 @@
         <v-btn
           id="buyBtn"
           v-if="isForSale"
+          @click="goToBuyPage"
           dark
           depressed
           color="blue"
-          @click="goToBuyPage"
         >
           Buy this book
         </v-btn>
 
-        <v-btn v-bind:color="isFavorite ? 'red' : 'gray'" class="btn-row-stack" icon @click="favoriteClick">
+        <v-btn 
+          v-bind:color="isFavorite ? 'red' : 'gray'"
+          @click="favoriteClick"
+          icon
+          class="btn-row-stack"  
+        >
           <v-icon>mdi-heart</v-icon>
         </v-btn>
         Add to favorite
@@ -88,16 +107,14 @@
         
         <!-- Description -->
         <h3 class="description-title">Description :</h3>
-        <span
-          v-if="hasBookInfo"
-          v-html="bookItem.volumeInfo.description"
-        ></span>
+        <span v-if="hasBookInfo" v-html="bookItem.volumeInfo.description"></span>
         <span v-if="!hasDescription">-</span>
 
         <!-- Authors -->
         <h3 class="description-title">Author :</h3>
         <span v-for="author in bookItem.volumeInfo.authors" :key="author">
-          {{ author }} <span v-if="haveMoreThanOneAuthor">,</span>
+          {{ author }} 
+          <span v-if="haveMoreThanOneAuthor">,</span>
         </span>
         <span v-if="!hasAuthor">-</span>
 
@@ -112,8 +129,8 @@
 
         <!-- Book?EBook? -->
         <h3 class="description-title">Book Type :</h3>
-          <span v-if="bookItem.saleInfo.isEbook">E-book</span>
-          <span v-if="!bookItem.saleInfo.isEbook">Book</span>
+        <span v-if="bookItem.saleInfo.isEbook">E-book</span>
+        <span v-if="!bookItem.saleInfo.isEbook">Book</span>
 
       </v-col>
     </v-row>

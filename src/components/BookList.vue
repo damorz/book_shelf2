@@ -1,8 +1,12 @@
 <template>
-  <v-list v-if="hasBookItem" style="width:100%;" three-line>
-      <div v-for="item in items.items" :key="getkey(item)">
-        <book-item v-if="hasKey(item.id)" :item="item"></book-item>
-      </div>
+  <v-list 
+    v-if="hasBookItem" 
+    three-line
+    style="width:100%;" 
+  >
+    <div v-for="item in items.items" :key="getkey(item)">
+      <book-item v-if="hasKey(item.id)" :item="item"></book-item>
+    </div>
   </v-list>
 </template>
 
@@ -41,7 +45,7 @@ export default {
       return true;
     },
     getkey(item) {
-      if (this.keys[item.id] != null) {
+      if (this.keys[item.id] !== null && this.keys[item.id] !== undefined) {
         this.keys[item.id] = false;
       } else {
         this.keys[item.id] = true;
@@ -51,13 +55,11 @@ export default {
   },
   watch: {
     sortingWord() {
-      // console.log(this.sortingWord);
       this.$store.dispatch("book/setFilterType",this.filterType);
       this.$store.dispatch("book/setSortType",this.sortingWord);
       this.$store.dispatch("book/searchSortedBookList");
     },
     filterType() {
-      // console.log(this.sortingWord);
       this.$store.dispatch("book/setFilterType",this.filterType);
       this.$store.dispatch("book/setSortType",this.sortingWord);
       this.$store.dispatch("book/searchSortedBookList");

@@ -2,7 +2,7 @@
   <v-container fluid>
     <!-- filter section -->
     <v-row class="mr-auto filter-bar">
-      <v-col class="py-2" cols="3">
+      <v-col cols="3" class="py-2">
         <h3>Sort by:</h3>
         <v-btn-toggle
           v-model="sortingType"
@@ -18,9 +18,12 @@
           </v-btn>
         </v-btn-toggle>
       </v-col>
-      <v-col class="py-2" cols="9">
+      <v-col cols="9" class="py-2">
         <h3>Filter by:</h3>
-        <v-btn-toggle tile v-model="filterType" color="red accent-3"
+        <v-btn-toggle 
+          v-model="filterType" 
+          tile 
+          color="red accent-3"
         >
           <v-btn value="full">
             <h4>Full Books</h4>

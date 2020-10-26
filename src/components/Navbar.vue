@@ -2,7 +2,10 @@
   <div>
     <v-app-bar color="#373737" dark>
       <v-btn @click="goHomePage" depressed color="#373737">
-        <v-toolbar-title>Book Shelf</v-toolbar-title>
+        <v-toolbar-title>
+          <img src="../assets/logo.svg" alt="">
+          Book Shelf
+        </v-toolbar-title>
       </v-btn>
       <v-spacer>
         <v-form>
@@ -10,13 +13,13 @@
             <v-row align="center" justify="center">
               <v-col cols="12" sm="7">
                 <v-text-field
-                  v-debounce:400ms="searchBySearchBar"
                   v-model="searchBar"
+                  v-debounce:400ms="searchBySearchBar"
                   hide-details
                   dense
+                  solo-inverted
                   class="ma-2"
                   label="Search book"
-                  solo-inverted
                 >
                 </v-text-field>
               </v-col>

@@ -1,21 +1,21 @@
 <template>
   <v-list-item v-if="showFavoriteBook" class="book-item">
     <v-img
-      v-if="item.volumeInfo.imageLinks == null"
+      v-if="!hasImageData"
       max-height="100%"
       max-width="10%"
       src="https://i.redd.it/s8lk86v3r2m11.png"
     >
     </v-img>
     <v-img
-      v-else-if="item.volumeInfo.imageLinks.thumbnail != null"
+      v-else-if="hasThumbnailImage"
       max-height="100%"
       max-width="10%"
       :src="item.volumeInfo.imageLinks.thumbnail"
     >
     </v-img>
     <v-img
-      v-else-if="item.volumeInfo.imageLinks.smallThumbnail != null"
+      v-else-if="hasSmallThumbnailImage"
       max-height="100%"
       max-width="10%"
       :src="item.volumeInfo.imageLinks.smallThumbnail"
@@ -39,10 +39,10 @@
         </v-col>
         <v-col cols="7">
           <v-btn
-            class="btn-row-stack"
             v-bind:color="isFavorite ? 'red' : 'gray'"
-            icon
             @click="favoriteClick"
+            icon
+            class="btn-row-stack"
           >
             <v-icon>mdi-heart</v-icon>
           </v-btn>
@@ -63,7 +63,11 @@
 <script>
 export default {
   name: "bookItem",
-  props: ["item"],
+  props: {
+    item: {
+      type: Object
+    }
+  },
   data() {
     return {
       isFavorite: false
@@ -78,6 +82,15 @@ export default {
         return true;
       }
     },
+    hasImageData() {
+      return this.item.volumeInfo.imageLinks !== null && this.item.volumeInfo.imageLinks !== undefined;
+    },
+    hasThumbnailImage() {
+      return this.item.volumeInfo.imageLinks.thumbnail !== null && this.item.volumeInfo.imageLinks.thumbnail !== undefined;
+    },
+    hasSmallThumbnailImage() {
+      return this.item.volumeInfo.imageLinks.smallThumbnail !== null && this.item.volumeInfo.imageLinks.smallThumbnail !== undefined;
+    }
   },
   mounted() {
     let favCount = parseInt(localStorage.getItem("favoriteBookCount"));

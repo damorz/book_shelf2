@@ -18,7 +18,7 @@ export default {
       return this.$store.getters["book/getFavoritedBookData"];
     },
     hasBookItem() {
-      return this.items != "undefinded" || this.items != null;
+      return this.items !== undefined && this.items !== null;
     },
   },
 };
