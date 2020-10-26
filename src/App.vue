@@ -9,7 +9,13 @@
 </template>
 
 <script>
+import Navbar from "./components/navbar";
+import Footer from "./components/footer";
 export default {
   name: "App",
+  components: {
+    'nav-bar': Navbar,
+    'footer-bar': Footer
+  }
 };
 </script>

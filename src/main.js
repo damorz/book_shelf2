@@ -5,29 +5,17 @@ import Vuetify from "vuetify";
 import Vuex from "vuex";
 import store from "./store/store";
 import vueDebounce from "vue-debounce";
-import VueRouter from "vue-router";
-import routes from "./routes"
-Vue.use(VueRouter);
+import router from "./router/index"
+
 Vue.use(Vuetify);
 Vue.use(Vuex);
 Vue.use(vueDebounce);
 
 Vue.config.productionTip = false;
 
-Vue.component("nav-bar", require("./components/navbar.vue").default);
-Vue.component("footer-bar", require("./components/footer.vue").default);
-Vue.component("book-item", require("./components/bookItem.vue").default);
-Vue.component("book-list", require("./components/bookList.vue").default);
-Vue.component("favorite-book-list", require("./components/favoriteBookList.vue").default);
-
 Vue.use(vueDebounce, {
   listenTo: "input",
   defaultTime: "700ms"
-});
-
-const router = new VueRouter({
-  mode: "hash",
-  routes: routes,
 });
 
 new Vue({
