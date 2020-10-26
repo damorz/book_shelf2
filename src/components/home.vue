@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import BookList from "./bookList";
+import BookList from "./BookList";
 export default {
   components: {
     'book-list': BookList

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import BookItem from "./bookItem";
+import BookItem from "./BookItem";
 export default {
   components: {
     'book-item': BookItem
