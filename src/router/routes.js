@@ -18,7 +18,7 @@ let routes = [
   },
   {
     path: "*",
-    component: require("../components/Home.vue").default,
+    component: require("../components/ErrorPage.vue").default,
   },
 ];
 export default routes;
