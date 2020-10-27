@@ -206,8 +206,6 @@ export default {
       await context.dispatch("searchBookList", fullSearchKey);
       context.dispatch("setBackupSearchKey", randomString);
       context.dispatch("setBookListBackup");
-
-      console.log("book already");
     },
     setSearchKey(context, key) {
       context.commit("SET_SEARCH_KEY", key);

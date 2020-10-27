@@ -41,7 +41,7 @@
       </v-col>
     </v-row>
 
-    <v-row>
+    <v-row v-if="hasSuggestBook">
       <v-col cols="12">
         <v-alert
           dark
@@ -55,11 +55,11 @@
     <v-row>
       <v-col cols="12">
         <horizontal-book-list :items="items"></horizontal-book-list>
+        <br>
+        <hr>
       </v-col>
     </v-row>
-    <br>
-    <hr>
-  
+    
     <!-- Book section -->
     <v-row>
       <v-col cols="12">
@@ -94,6 +94,12 @@ export default {
     items() {
       return this.$store.getters["book/getSuggestBookData"];
     },
+    hasSuggestBook() {
+      if(this.items !== null && this.items !== undefined) {
+        return this.items.totalItems !== 0 && this.items !== null;
+      }
+      return false;
+    }
   },
   mounted() {
     this.$store.dispatch("book/setSuggestBookData", null);
