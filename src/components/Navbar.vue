@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar color="#373737" dark>
+    <v-app-bar color="#373737" dark style="z-index: 1;position: fixed;">
       <v-btn @click="goHomePage" depressed color="#373737">
         <v-toolbar-title>
           Book Shelf
@@ -51,11 +51,15 @@ export default {
     if (localStorage.getItem("favoriteBookCount") == null) {
       localStorage.setItem("favoriteBookCount", 0);
     }
+    this.$store.dispatch("book/loadFavoritedBook");
   },
   methods: {
     searchBySearchBar() {
       if (this.searchBar != "") {
         this.$store.dispatch("book/searchBookListBySearchBar", this.searchBar);
+        if(this.$route.path !== "/") {
+          this.$router.push({name: "home"});
+        }
       } else {
         this.$store.dispatch("book/restoreBookData");
       }

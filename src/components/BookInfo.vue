@@ -4,7 +4,7 @@
     fluid
     class="fill-height" 
   >
-    <v-row no-gutters class="book-info-container" >
+    <v-row no-gutters class="book-info-container" style="margin-top: 4%;">
       <!-- Image Section -->
       <v-col cols="4">
         <v-img
@@ -134,10 +134,29 @@
 
       </v-col>
     </v-row>
+    
+    <v-row>
+      <v-col cols="12">
+        <v-alert
+          dark
+          :value="true"
+          color="warning"
+        >
+          <h3>Suggest for you</h3>
+        </v-alert>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <horizontal-book-list :items="items"></horizontal-book-list>
+      </v-col>
+    </v-row>
+
   </v-container>
 </template>
 
 <script>
+import HorizontalBookList from "./HorizontalBookList";
 export default {
   props: {
     bookId: {
@@ -145,12 +164,18 @@ export default {
       required: true
     }
   },
+  components: {
+    'horizontal-book-list': HorizontalBookList
+  },
   data() {
     return {
       isFavorite: false
     };
   },
   computed: {
+    items() {
+      return this.$store.getters["book/getSuggestBookData"];
+    },
     hasBookInfo() {
       return this.$store.getters["book/getBookInfo"] != null;
     },
@@ -196,7 +221,7 @@ export default {
     let favCount = parseInt(localStorage.getItem("favoriteBookCount"));
     if (isNaN(favCount)) {
       localStorage.setItem("favoriteBookCount",0);
-    }
+    } 
   },
   methods: {
     goToBuyPage() {
@@ -207,5 +232,10 @@ export default {
       this.isFavorite = !this.isFavorite;
     },
   },
+  watch: {
+    bookItem() {
+      this.$store.dispatch("book/setSuggestBookData", this.bookItem.volumeInfo.title);
+    }
+  }
 };
 </script>

@@ -40,22 +40,63 @@
         </v-btn-toggle>
       </v-col>
     </v-row>
+
+    <v-row>
+      <v-col cols="12">
+        <v-alert
+          dark
+          :value="true"
+          color="warning"
+        >
+          <h3>Suggest for you</h3>
+        </v-alert>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <horizontal-book-list :items="items"></horizontal-book-list>
+      </v-col>
+    </v-row>
+    <br>
+    <hr>
+  
     <!-- Book section -->
+    <v-row>
+      <v-col cols="12">
+        <v-alert
+          dark
+          :value="true"
+          color="info"
+        >
+          <h3>Other Books</h3>
+        </v-alert>
+      </v-col>
+    </v-row>
     <book-list :sortingWord="sortingType" :filterType="filterType"></book-list>
   </v-container>
 </template>
 
 <script>
 import BookList from "./BookList";
+import HorizontalBookList from "./HorizontalBookList.vue";
 export default {
   components: {
-    'book-list': BookList
+    'book-list': BookList,
+    'horizontal-book-list': HorizontalBookList
   },
   data() {
     return {
       sortingType: "",
-      filterType: null
+      filterType: null,
     };
   },
+  computed: {
+    items() {
+      return this.$store.getters["book/getSuggestBookData"];
+    },
+  },
+  mounted() {
+    this.$store.dispatch("book/setSuggestBookData", null);
+  }
 };
 </script>

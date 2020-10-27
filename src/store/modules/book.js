@@ -3,6 +3,7 @@ import axios from "axios";
 export default {
   namespaced: true,
   state: {
+    suggestBookData: null,
     bookData: null,
     bookInfo: null,
     bookId: null,
@@ -15,6 +16,9 @@ export default {
     isFavorited: true
   },
   mutations: {
+    SET_SUGGEST_BOOK_DATA(state, data) {
+      state.suggestBookData = data;
+    },
     SET_IS_FAVORITED_BOOK(state, isFav) {
       state.isFavorited = isFav;
     },
@@ -48,6 +52,7 @@ export default {
   },
   getters: {
     isFavorited: (state) => state.isFavorited,
+    getSuggestBookData: (state) => state.suggestBookData,
     getFavoritedBookData: (state) => state.favoritedBookData,
     getSortType: (state) => state.sortType,
     getFilterType: (state) => state.filterType,
@@ -59,6 +64,30 @@ export default {
     getBookListBackup: (state) => state.bookDataBackup,
   },
   actions: {
+    async setSuggestBookData(context, bookTitle) {
+      let url = "https://www.googleapis.com/books/v1/volumes?q=";
+      let favBook = context.getters.getFavoritedBookData;
+      let randomNumber = 0;
+      let words = "";
+      if(bookTitle !== null) {
+        words = bookTitle.split(" ");
+      }
+      else if(favBook !== null && favBook !== undefined && favBook.length !== 0) {
+        let randomIndex = Math.floor(Math.random() * (favBook.length));
+        words = favBook[randomIndex].volumeInfo.title.split(" ");
+      }
+      else {
+        let randomString = Math.random().toString(36).substr(2, 1);
+        words = randomString.split(" ");
+      }
+      randomNumber = Math.floor(Math.random() * (words.length));
+      try {
+        const response = await axios.get(`${url}${words[randomNumber]}`);
+        context.commit("SET_SUGGEST_BOOK_DATA", response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
     isFavoritedCheck(context, id) {
       let isFav = false;
       if(JSON.parse(localStorage.getItem(id)) !== null) {
@@ -166,8 +195,8 @@ export default {
       context.commit("SET_BOOK_ID", id);
     },
     async randomSearchBook(context) {
-      var randomString = Math.random().toString(36).substr(2, 1);
-      var fullSearchKey = "";
+      let randomString = Math.random().toString(36).substr(2, 1);
+      let fullSearchKey = "";
       if (context.getters.getFilterType !== undefined && context.getters.getFilterType !== null) {
         fullSearchKey = `${randomString}&orderBy=${context.getters.getSortType}&filter=${context.getters.getFilterType}`;
       } 
@@ -177,6 +206,8 @@ export default {
       await context.dispatch("searchBookList", fullSearchKey);
       context.dispatch("setBackupSearchKey", randomString);
       context.dispatch("setBookListBackup");
+
+      console.log("book already");
     },
     setSearchKey(context, key) {
       context.commit("SET_SEARCH_KEY", key);

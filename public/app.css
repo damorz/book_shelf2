@@ -2,6 +2,37 @@
   text-align: center;
 }
 
+.horizontal-item {
+  margin-right: 2vh;
+  width: 20vh;
+}
+
+.horizontal-container {
+  display: flex;
+  overflow-x: auto;
+}
+
+.horizontal-container::-webkit-scrollbar {
+  display: none;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: .5;
+  position: absolute;
+  width: 100%;
+}
+
+.img-horizontal {
+  height: 30vh; 
+  display: flex;
+}
 .center {
   display: block;
   margin-left: auto;
@@ -84,6 +115,7 @@
 .filter-bar {
   background-color: white;
   margin-bottom: 1%;
+  margin-top: 4%;
 }
 
 .error-404 {
