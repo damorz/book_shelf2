@@ -65,7 +65,8 @@ export default {
   name: "bookItem",
   props: {
     item: {
-      type: Object
+      type: Object,
+      required: false
     }
   },
   data() {
@@ -107,7 +108,7 @@ export default {
       this.isFavorite = !this.isFavorite;
     },
     goToBookInfo(bookId) {
-      this.$store.dispatch("book/searchBookList", bookId);
+      // this.$store.dispatch("book/searchBookList", bookId);
       this.$store.dispatch("book/searchBook", bookId);
       this.$router.push({ name: "book", params: { bookId } });
     },

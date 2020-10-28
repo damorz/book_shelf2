@@ -1,5 +1,7 @@
 /* eslint-disable no-undef */
 import axios from "axios";
+// const BASE_BOOK_API_URL = "https://www.googleapis.com/books/v1/volumes";
+// use params to get api
 export default {
   namespaced: true,
   state: {
@@ -14,6 +16,7 @@ export default {
     sortType: null,
     favoritedBookData: null,
     isFavorited: true
+    //Set empty state in defaut Obj !!!!!??????
   },
   mutations: {
     SET_SUGGEST_BOOK_DATA(state, data) {
@@ -52,6 +55,8 @@ export default {
   },
   getters: {
     isFavorited: (state) => state.isFavorited,
+    hasFilterType: (state, getters) => getters.getFilterType !== undefined && getters.getFilterType !== null,
+    hasSortType: (state, getters) => getters.getSortType !== undefined && getters.getSortType !== null,
     getSuggestBookData: (state) => state.suggestBookData,
     getFavoritedBookData: (state) => state.favoritedBookData,
     getSortType: (state) => state.sortType,
@@ -68,11 +73,15 @@ export default {
       let url = "https://www.googleapis.com/books/v1/volumes?q=";
       let favBook = context.getters.getFavoritedBookData;
       let randomNumber = 0;
-      let words = "";
-      if(bookTitle !== null) {
+      let words = [];
+      const hasFavbook = favBook !== null && favBook !== undefined && favBook.length !== 0;
+      const hasTitle = bookTitle !== null;
+
+
+      if(hasTitle) {
         words = bookTitle.split(" ");
       }
-      else if(favBook !== null && favBook !== undefined && favBook.length !== 0) {
+      else if(hasFavbook) {
         let randomIndex = Math.floor(Math.random() * (favBook.length));
         words = favBook[randomIndex].volumeInfo.title.split(" ");
       }
@@ -80,12 +89,14 @@ export default {
         let randomString = Math.random().toString(36).substr(2, 1);
         words = randomString.split(" ");
       }
+
       randomNumber = Math.floor(Math.random() * (words.length));
       try {
         const response = await axios.get(`${url}${words[randomNumber]}`);
         context.commit("SET_SUGGEST_BOOK_DATA", response.data);
       } catch (error) {
         console.log(error);
+        console.error //Suggest ! ?
       }
     },
     isFavoritedCheck(context, id) {
@@ -141,33 +152,29 @@ export default {
       context.commit("SET_BACKUP_SEARCH_KEY", backupSearchKey);
     },
     async searchSortedBookList(context) {
-      if (context.getters.getBackupSearchKey === "") {
-        context.dispatch("randomSearchBook");
+      if(context.getters.getBackupSearchKey === "") {
+        context.dispatch("randomSearchBook"); 
+        return; // quick end process ??!  // return context.dispatch("randomSearchBook"); // quick end process ??!
       } 
-      else {
-        let url = "";
-        if (context.getters.getFilterType !== undefined && context.getters.getFilterType !== null) {
-            url = `https://www.googleapis.com/books/v1/volumes?q=${context.getters.getBackupSearchKey}&orderBy=${context.getters.getSortType}&filter=${context.getters.getFilterType}`; 
-        } 
-        else {
-            url = `https://www.googleapis.com/books/v1/volumes?q=${context.getters.getBackupSearchKey}&orderBy=${context.getters.getSortType}`;
-        }
-        try {
-            const response = await axios.get(url);
-            context.commit("SET_BOOK_SEARCH", response.data);
-        } catch (error) {
-            console.log(error);
-        }
+      let url = `https://www.googleapis.com/books/v1/volumes?q=${context.getters.getBackupSearchKey}&orderBy=${context.getters.getSortType}`;
+      if (context.getters.hasFilterType) {
+        url = `${url}&filter=${context.getters.getFilterType}`; 
+      } 
+      try {
+        const response = await axios.get(url);
+        context.commit("SET_BOOK_SEARCH", response.data);
+      } catch (error) {
+        console.log(error);
       }
     },
     async searchBookList(context, searchKey) {
-        let url = "https://www.googleapis.com/books/v1/volumes?q=";
-        try {
-            const response = await axios.get(`${url}${searchKey}`);
-            context.commit("SET_BOOK_SEARCH", response.data);
-        } catch (error) {
-            console.log(error);
-        }
+      let url = "https://www.googleapis.com/books/v1/volumes?q=";
+      try {
+          const response = await axios.get(`${url}${searchKey}`);
+          context.commit("SET_BOOK_SEARCH", response.data);
+      } catch (error) {
+          console.log(error);
+      }
     },
     searchBookListBySearchBar(context, searchKey) {
       let fullSearchKey = "";

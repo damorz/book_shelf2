@@ -17,19 +17,16 @@ import HorizontalBookItem from "./HorizontalBookItem.vue";
 export default {
   props: {
     items: {
-      type: Object
+      type: Object,
+      required: false
     }
   },
   components: {
-    'horizontal-book-item': HorizontalBookItem
+    HorizontalBookItem
   },
   computed: {
-    // items() {
-    //   this.$store.dispatch("book/setSuggestBookData");
-    //   console.log(this.$store.getters["book/getSuggestBookData"]);
-    //   return this.$store.getters["book/getSuggestBookData"];
-    // },
     hasBookItem() {
+      console.log(this.items);
       return this.items !== undefined && this.items !== null;
     },
   },

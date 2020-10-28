@@ -80,15 +80,15 @@ export default {
   props: {
     item: {
       type: Object,
+      required: false
     },
   },
   computed: {
     showFavoriteBook() {
-      if (this.$route.path === "/favorite") {
-        return this.isFavorite;
-      } else {
-        return true;
-      }
+      return (this.$route.path === "/favorite") ? this.isFavorite : true;
+    },
+    src() {
+      return true;
     },
     hasImageData() {
       return (
@@ -115,7 +115,7 @@ export default {
       this.isFavorite = !this.isFavorite;
     },
     goToBookInfo() {
-      this.$store.dispatch("book/searchBookList", this.item.id);
+      // this.$store.dispatch("book/searchBookList", this.item.id);
       this.$store.dispatch("book/searchBook", this.item.id);
       this.$router.push({ name: "book", params: { bookId: this.item.id } });
       if(this.$route.path !== "/") {
