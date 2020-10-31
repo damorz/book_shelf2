@@ -3,6 +3,7 @@
     <div class="horizontal-item ml-auto mt-auto" slot-scope="{ hover }">
       <div class="img-horizontal ">
         <v-img
+        v-if="hasImageData"
           width="100%"
           :src="imageLink"
           style="margin: auto;"

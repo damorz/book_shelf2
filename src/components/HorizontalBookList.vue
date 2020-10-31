@@ -29,7 +29,6 @@ export default {
   
   computed: {
     hasBookItem() {
-      console.log(this.items);
       return this.items !== undefined && this.items !== null;
     },
   },

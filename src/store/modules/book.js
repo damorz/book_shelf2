@@ -1,22 +1,41 @@
 /* eslint-disable no-undef */
 import axios from "axios";
 const BASE_BOOK_API_URL = "https://www.googleapis.com/books/v1/volumes";
-// use params to get api
+
 export default {
   namespaced: true,
   state: {
-    suggestBookData: null,
-    bookData: null,
-    bookInfo: null,
-    bookId: null,
+    isFavorited: true,
+    suggestBookData: {
+      items: [],
+      kind: "",
+      totalItems: 0
+    },
+    bookData: {
+      items: [],
+      kind: "",
+      totalItems: 0
+    },
+    bookDataBackup: {
+      items: [],
+      kind: "",
+      totalItems: 0
+    },
+    bookInfo: {
+      accessInfo: {},
+      etag: "",
+      id: "",
+      kind: "",
+      saleInfo: {},
+      selfLink: "",
+      volumeInfo: {}
+    },
+    favoritedBookData: [],
+    bookId: "",
     searchKey: "",
     backupSearchKey: "",
-    bookDataBackup: null,
-    filterType: null,
-    sortType: null,
-    favoritedBookData: null,
-    isFavorited: true
-    //Set empty state in defaut Obj !!!!!??????
+    filterType: "",
+    sortType: ""
   },
   mutations: {
     SET_SUGGEST_BOOK_DATA(state, data) {
@@ -154,7 +173,7 @@ export default {
     async searchSortedBookList(context) {
       if(context.getters.getBackupSearchKey === "") {
         context.dispatch("randomSearchBook"); 
-        return; // quick end process ??!  // return context.dispatch("randomSearchBook"); // quick end process ??!
+        return;
       } 
       let params = {
         q: context.getters.getBackupSearchKey,

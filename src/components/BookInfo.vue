@@ -8,6 +8,7 @@
       <!-- Image Section -->
       <v-col cols="4" align="center">
         <v-img
+        v-if="hasImageData"
           max-height="100%"
           max-width="80%"
           :src="imageLink"

@@ -1,6 +1,7 @@
 <template>
   <v-list-item v-if="showFavoriteBook" class="book-item">
     <v-img
+    v-if="hasImageData"
       max-height="100%"
       max-width="10%"
       :src="imageLink"
