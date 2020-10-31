@@ -3,46 +3,11 @@
     <div class="horizontal-item ml-auto mt-auto" slot-scope="{ hover }">
       <div class="img-horizontal ">
         <v-img
-          v-if="!hasImageData"
           width="100%"
-          src="https://i.redd.it/s8lk86v3r2m11.png"
+          :src="imageLink"
           style="margin: auto;"
         >
-        <v-expand-transition>
-            <div
-              v-if="hover"
-              @click="goToBookInfo"
-              class="pointer d-flex transition-fast-in-fast-out black darken-2 v-card--reveal display-3 white--text"
-              style="height: 100%;"
-            >
-              <p style="font-size:3vh;">Read more</p>
-            </div>
-          </v-expand-transition>
-        </v-img>
-        <v-img
-          v-else-if="hasThumbnailImage"
-          width="100%"
-          :src="item.volumeInfo.imageLinks.thumbnail"
-          style="margin: auto; "
-        >
-        <v-expand-transition>
-            <div
-              v-if="hover"
-              @click="goToBookInfo"
-              class="pointer d-flex transition-fast-in-fast-out black darken-2 v-card--reveal display-3 white--text"
-              style="height: 100%;"
-            >
-              <p style="font-size:3vh;">Read more</p>
-            </div>
-          </v-expand-transition>
-        </v-img>
-        <v-img
-          v-else-if="hasSmallThumbnailImage"
-          width="100%"
-          :src="item.volumeInfo.imageLinks.smallThumbnail"
-          style="margin: auto;"
-        >
-        <v-expand-transition>
+          <v-expand-transition>
             <div
               v-if="hover"
               @click="goToBookInfo"
@@ -77,13 +42,24 @@
 
 <script>
 export default {
+  
   props: {
     item: {
       type: Object,
       required: false
     },
   },
+
   computed: {
+    imageLink() {
+      if(this.hasThumbnailImage) {
+        return this.item.volumeInfo.imageLinks.thumbnail;
+      }
+      else if(this.hasSmallThumbnailImage) {
+        return this.item.volumeInfo.imageLinks.smallThumbnail;
+      }
+      return "https://i.redd.it/s8lk86v3r2m11.png";
+    },
     showFavoriteBook() {
       return (this.$route.path === "/favorite") ? this.isFavorite : true;
     },
@@ -109,6 +85,7 @@ export default {
       );
     },
   },
+
   methods: {
     favoriteClick() {
       this.$store.dispatch("book/onClickFavorite", this.item);

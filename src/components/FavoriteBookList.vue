@@ -10,7 +10,7 @@
 import BookItem from "./BookItem";
 export default {
   components: {
-    'book-item': BookItem
+    BookItem
   },
   computed: {
     items() {

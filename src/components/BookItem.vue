@@ -1,24 +1,9 @@
 <template>
   <v-list-item v-if="showFavoriteBook" class="book-item">
     <v-img
-      v-if="!hasImageData"
       max-height="100%"
       max-width="10%"
-      src="https://i.redd.it/s8lk86v3r2m11.png"
-    >
-    </v-img>
-    <v-img
-      v-else-if="hasThumbnailImage"
-      max-height="100%"
-      max-width="10%"
-      :src="item.volumeInfo.imageLinks.thumbnail"
-    >
-    </v-img>
-    <v-img
-      v-else-if="hasSmallThumbnailImage"
-      max-height="100%"
-      max-width="10%"
-      :src="item.volumeInfo.imageLinks.smallThumbnail"
+      :src="imageLink"
     >
     </v-img>
 
@@ -58,22 +43,27 @@
         </v-col>
       </v-row>
     </v-list-item-content>
+    
   </v-list-item>
 </template>
+
 <script>
 export default {
   name: "bookItem",
+
   props: {
     item: {
       type: Object,
       required: false
     }
   },
+
   data() {
     return {
       isFavorite: false
     };
   },
+
   computed: {
     showFavoriteBook() {
       if(this.$route.path === "/favorite") {
@@ -82,6 +72,15 @@ export default {
       else {
         return true;
       }
+    },
+    imageLink() {
+      if(this.hasThumbnailImage) {
+        return this.item.volumeInfo.imageLinks.thumbnail;
+      }
+      else if(this.hasSmallThumbnailImage) {
+        return this.item.volumeInfo.imageLinks.smallThumbnail;
+      }
+      return "https://i.redd.it/s8lk86v3r2m11.png";
     },
     hasImageData() {
       return this.item.volumeInfo.imageLinks !== null && this.item.volumeInfo.imageLinks !== undefined;
@@ -93,6 +92,7 @@ export default {
       return this.item.volumeInfo.imageLinks.smallThumbnail !== null && this.item.volumeInfo.imageLinks.smallThumbnail !== undefined;
     }
   },
+
   mounted() {
     let favCount = parseInt(localStorage.getItem("favoriteBookCount"));
     if (isNaN(favCount)) {
@@ -102,13 +102,13 @@ export default {
     this.$store.dispatch("book/isFavoritedCheck", this.item.id);
     this.isFavorite = this.$store.getters["book/isFavorited"];
   },
+
   methods: {
     favoriteClick() {
       this.$store.dispatch("book/onClickFavorite", this.item);
       this.isFavorite = !this.isFavorite;
     },
     goToBookInfo(bookId) {
-      // this.$store.dispatch("book/searchBookList", bookId);
       this.$store.dispatch("book/searchBook", bookId);
       this.$router.push({ name: "book", params: { bookId } });
     },

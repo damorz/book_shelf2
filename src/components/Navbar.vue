@@ -42,17 +42,20 @@
 
 <script>
 export default {
+
   data() {
     return {
       searchBar: "",
     };
   },
+
   mounted() {
     if (localStorage.getItem("favoriteBookCount") == null) {
       localStorage.setItem("favoriteBookCount", 0);
     }
     this.$store.dispatch("book/loadFavoritedBook");
   },
+
   methods: {
     searchBySearchBar() {
       if (this.searchBar != "") {
@@ -75,6 +78,7 @@ export default {
       }
     },
   },
+  
   watch: {
     searchBar() {
       this.$store.dispatch("book/setSearchKey", this.searchBar);

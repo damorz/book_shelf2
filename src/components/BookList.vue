@@ -14,8 +14,9 @@
 import BookItem from "./BookItem";
 export default {
   components: {
-    'book-item': BookItem
+    BookItem
   },
+
   props: {
     sortingWord: {
       type: String

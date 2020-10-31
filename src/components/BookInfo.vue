@@ -6,28 +6,11 @@
   >
     <v-row no-gutters class="book-info-container" style="margin-top: 4%;">
       <!-- Image Section -->
-      <v-col cols="4">
+      <v-col cols="4" align="center">
         <v-img
-          v-if="hasNoImage"
-          max-height="100%"
-          max-width="100%"
-          src="https://i.redd.it/s8lk86v3r2m11.png"
-        >
-        </v-img>
-        <v-img
-          v-else-if="hasThumbnail"
           max-height="100%"
           max-width="80%"
-          :src="bookItem.volumeInfo.imageLinks.thumbnail"
-          class="ml-auto mr-auto"
-        >
-        </v-img>
-        <v-img
-          v-else
-          max-height="100%"
-          max-width="80%"
-          :src="bookItem.volumeInfo.imageLinks.smallThumbnail"
-          class="ml-auto mr-auto"
+          :src="imageLink"
         >
         </v-img>
       </v-col>
@@ -135,6 +118,7 @@
       </v-col>
     </v-row>
     
+    <!-- suggest book -->
     <v-row>
       <v-col cols="12">
         <v-alert
@@ -165,7 +149,7 @@ export default {
     }
   },
   components: {
-    'horizontal-book-list': HorizontalBookList
+    HorizontalBookList
   },
   data() {
     return {
@@ -173,6 +157,15 @@ export default {
     };
   },
   computed: {
+    imageLink() {
+      if(this.hasThumbnailImage) {
+        return this.bookItem.volumeInfo.imageLinks.thumbnail;
+      }
+      else if(this.hasSmallThumbnailImage) {
+        return this.bookItem.volumeInfo.imageLinks.smallThumbnail;
+      }
+      return "https://i.redd.it/s8lk86v3r2m11.png";
+    },
     items() {
       return this.$store.getters["book/getSuggestBookData"];
     },
@@ -191,17 +184,29 @@ export default {
     authorCount() {
       return this.bookItem.volumeInfo.authors.length;
     },
-    hasThumbnail() {
-      return this.bookItem.volumeInfo.imageLinks.thumbnail != null;
-    },
     isForSale() {
       return this.bookItem.saleInfo.saleability == "FOR_SALE";
     },
     isFree() {
       return this.bookItem.saleInfo.listPrice.amount == 0;
     },
-    hasNoImage() {
-      return this.bookItem.volumeInfo.imageLinks == null;
+    hasImageData() {
+      return (
+        this.bookItem.volumeInfo.imageLinks !== null &&
+        this.bookItem.volumeInfo.imageLinks !== undefined
+      );
+    },
+    hasThumbnailImage() {
+      return (
+        this.bookItem.volumeInfo.imageLinks.thumbnail !== null &&
+        this.bookItem.volumeInfo.imageLinks.thumbnail !== undefined
+      );
+    },
+    hasSmallThumbnailImage() {
+      return (
+        this.bookItem.volumeInfo.imageLinks.smallThumbnail !== null &&
+        this.bookItem.volumeInfo.imageLinks.smallThumbnail !== undefined
+      );
     },
     hasDiscount() {
       return (this.bookItem.saleInfo.listPrice.amount > this.bookItem.saleInfo.retailPrice.amount);

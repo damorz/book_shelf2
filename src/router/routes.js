@@ -14,7 +14,7 @@ let routes = [
     path: "/book/:bookId",
     name: "book",
     component: require("../components/BookInfo.vue").default,
-    props: true 
+    props: true,
   },
   {
     path: "*",

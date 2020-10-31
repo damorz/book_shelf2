@@ -15,15 +15,18 @@
 <script>
 import HorizontalBookItem from "./HorizontalBookItem.vue";
 export default {
+
   props: {
     items: {
       type: Object,
       required: false
     }
   },
+
   components: {
     HorizontalBookItem
   },
+  
   computed: {
     hasBookItem() {
       console.log(this.items);

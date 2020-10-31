@@ -80,16 +80,19 @@
 import BookList from "./BookList";
 import HorizontalBookList from "./HorizontalBookList.vue";
 export default {
+
   components: {
-    'book-list': BookList,
-    'horizontal-book-list': HorizontalBookList
+    BookList,
+    HorizontalBookList
   },
+
   data() {
     return {
       sortingType: "",
       filterType: null,
     };
   },
+
   computed: {
     items() {
       return this.$store.getters["book/getSuggestBookData"];
@@ -101,6 +104,7 @@ export default {
       return false;
     }
   },
+  
   mounted() {
     this.$store.dispatch("book/setSuggestBookData", null);
   }
