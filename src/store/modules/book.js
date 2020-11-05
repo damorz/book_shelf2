@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import axios from "axios";
+const _ = require('lodash');
 const BASE_BOOK_API_URL = "https://www.googleapis.com/books/v1/volumes";
 
 export default {
@@ -92,9 +93,8 @@ export default {
       let favBook = context.getters.getFavoritedBookData;
       let randomNumber = 0;
       let words = [];
-      const hasFavbook = (favBook !== null && favBook !== undefined && favBook.length !== 0);
+      const hasFavbook = (favBook.length !== 0);
       const hasTitle = (bookTitle !== null);
-
       if(hasTitle) {
         words = bookTitle.split(" ");
       }
@@ -145,10 +145,10 @@ export default {
     onClickFavorite(context, Bookdata) {
       let favBook = JSON.parse(localStorage.getItem(Bookdata.id));
       let favCount = parseInt(localStorage.getItem("favoriteBookCount"));
-      if(favCount === null || favCount === undefined) {
+      if(isNaN(favCount)) {
         favCount = 0;
       }
-      if(favBook !== null) { //Already fav and remove
+      if(_.has(favBook,"id")) { //Already fav and remove 
         localStorage.removeItem(Bookdata.id);
         localStorage.setItem("favoriteBookCount",favCount - 1 );
         favCount -= 1;
@@ -211,7 +211,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    },
+    }, 
     searchBookListBySearchBar(context, searchKey) {
       if (searchKey === context.getters.getSearchKey) {
         context.dispatch("searchBookList", searchKey);

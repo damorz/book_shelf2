@@ -4,8 +4,11 @@ module.exports = {
     "vuetify"
   ],
   devServer: {
-    public: 'localhost:8081',
-    disableHostCheck: true,
+    open: process.platform === "darwin",
+    host: "0.0.0.0",
+    port: 8000,
+    https: false,
+    hotOnly: false,
   },
-  publicPath: ''
+  publicPath: '',
 }

@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  ##########################
+  ### SETUP CLIENT CONTAINER
+  ##########################
+  client:
+    container_name: bookshelf_docker
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 8000:8000
+    volumes:
+      - ./client/src:/app/client/src
+      - ./client/public:/app/client/public
+
+    command: npm run serve
+    restart: always
