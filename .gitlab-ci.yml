@@ -8,7 +8,7 @@ dist-build:
   script:
     - npm install
     - npm run build
-    - docker image
+    - docker images
     - cd dist
     - ls
 
