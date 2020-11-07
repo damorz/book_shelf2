@@ -27,7 +27,7 @@ deploy-container:
   image: registry.gitlab.com/damorz/book_shelf:latest
   stage: deploy
   script:
-    - echo "running"
+    - ls
     
 
 # pages:
