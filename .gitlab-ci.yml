@@ -8,8 +8,10 @@ dist-build:
   script:
     - npm install
     - npm run build
+    - docker image
     - cd dist
     - ls
+
 
 docker-build:
   image: docker:latest
@@ -21,6 +23,7 @@ docker-build:
   script:
     - docker build --pull -t "$CI_REGISTRY_IMAGE" .
     - docker push "$CI_REGISTRY_IMAGE"
+    - docker run -p 8081:80 "$CI_REGISTRY_IMAGE"
   
 
 deploy-container:
