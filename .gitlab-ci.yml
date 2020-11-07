@@ -1,6 +1,6 @@
 stages:
   - build
-  -  run
+  - run
 
 dist-build:
   image: node:latest
@@ -25,12 +25,13 @@ docker-build:
     - docker run -p 8081:80 "$CI_REGISTRY_IMAGE"
   
 
-# deploy-container:
-#   image: registry.gitlab.com/damorz/book_shelf:latest
-#   stage: deploy
-#   script:
-#     - cd src
-#     - ls
+deploy-container:
+  image: registry.gitlab.com/damorz/book_shelf:latest
+  stage: deploy
+  script:
+    - ./deploy.sh
+  only:
+    - main
     
 
 # pages:
