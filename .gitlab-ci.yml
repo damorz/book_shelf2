@@ -1,6 +1,7 @@
 stages:
   - build
   - run
+  - deploy
 
 dist-build:
   image: node:latest
