@@ -5,7 +5,7 @@ stages:
 dist-build:
   image: node:latest
   stage: build
-  stage: 
+  services: 
     - docker:latest
     - docker:dind
   script:
