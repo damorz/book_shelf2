@@ -1,9 +1,6 @@
 
-# stages:
-#   - build
-#   - run
-#   - release
-#   - deploy
+stages:
+  - build
 
 # dist-build:
 #   image: node:latest
@@ -14,17 +11,18 @@
 #     - rm -rf public
 #     - mv dist public
 
-
-# docker-build:
-#   image: docker:latest
-#   stage: run
-#   services:
-#     - docker:dind
-#   before_script:
-#     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-#   script:
-#     - docker build --pull -t "$CI_REGISTRY_IMAGE" .
-#     - docker push "$CI_REGISTRY_IMAGE"
+docker-build:
+  image: docker:latest
+  stage: build
+  services:
+    - node:latest
+    - docker:dind
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - npm -v
+    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+    - docker push "$CI_REGISTRY_IMAGE"
   
 
 # deploy-container:
@@ -35,17 +33,18 @@
 #   only:
 #     - main
     
-
-pages:
-  image: node:latest
-  stage: deploy
-  script:
-    - npm install
-    - npm run build
-    # - rm -rf public
-    # - mv dist public
-  artifacts:
-    paths:
-    - dist
-  only:
-  - main
+    
+    
+# pages:
+#   image: node:latest
+#   stage: deploy
+#   script:
+#     - npm install
+#     - npm run build
+#     - rm -rf public
+#     - mv dist public
+#   artifacts:
+#     paths:
+#     - public
+#   only:
+#   - main
