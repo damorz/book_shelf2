@@ -27,6 +27,7 @@ deploy-container:
   image: registry.gitlab.com/damorz/book_shelf:latest
   stage: deploy
   script:
+    - cd public
     - ls
     
 
