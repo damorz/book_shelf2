@@ -1,5 +1,6 @@
 stages:
   - build
+  - deploy
 
 dist-build:
   image: node:latest
@@ -16,12 +17,19 @@ docker-build:
   services:
     - docker:dind
   before_script:
-    - echo docker $CI_BUILD_TOKEN | login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
     - docker build --pull -t "$CI_REGISTRY_IMAGE" .
     - docker push "$CI_REGISTRY_IMAGE"
   
-  
+
+deploy-container:
+  image: registry.gitlab.com/damorz/book_shelf:latest
+  stage: deploy
+  script:
+    - echo "running"
+    
+
 # pages:
 #   image: node:latest
 #   stage: deploy
