@@ -1,7 +1,7 @@
 <template>
   <v-hover>
     <div class="horizontal-item ml-auto mt-auto" slot-scope="{ hover }">
-      <div class="img-horizontal ">
+      <div class="img-horizontal">
         <v-img
         v-if="hasImageData"
           width="100%"

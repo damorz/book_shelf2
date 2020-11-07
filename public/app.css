@@ -2,17 +2,17 @@
   text-align: center;
 }
 
-.horizontal-item {
+.horizontal-item { /* docker problem*/
   margin-right: 2vh;
   width: 20vh;
 }
 
-.horizontal-container {
+.horizontal-container { /* docker problem*/
   display: flex;
   overflow-x: auto;
 }
 
-.horizontal-container::-webkit-scrollbar {
+.horizontal-container::-webkit-scrollbar { /* docker problem*/
   display: none;
 }
 
@@ -33,6 +33,7 @@
   height: 30vh; 
   display: flex;
 }
+
 .center {
   display: block;
   margin-left: auto;
