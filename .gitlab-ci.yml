@@ -5,6 +5,9 @@ stages:
 dist-build:
   image: node:latest
   stage: build
+  stage: 
+    - docker:latest
+    - docker:dind
   script:
     - npm install
     - npm run build
@@ -26,12 +29,12 @@ docker-build:
     - docker run -p 8081:80 "$CI_REGISTRY_IMAGE"
   
 
-deploy-container:
-  image: registry.gitlab.com/damorz/book_shelf:latest
-  stage: deploy
-  script:
-    - cd src
-    - ls
+# deploy-container:
+#   image: registry.gitlab.com/damorz/book_shelf:latest
+#   stage: deploy
+#   script:
+#     - cd src
+#     - ls
     
 
 # pages:
