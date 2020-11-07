@@ -23,7 +23,6 @@ docker-build:
   script:
     - docker build --pull -t "$CI_REGISTRY_IMAGE" .
     - docker push "$CI_REGISTRY_IMAGE"
-    - docker run -p 8081:80 "$CI_REGISTRY_IMAGE"
   
 
 deploy-container:
