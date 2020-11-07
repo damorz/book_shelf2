@@ -1,8 +1,15 @@
 stages:
   - build
 
+# dist-build:
+#   image: node:latest
+#   stage: build
+#   script:
+#     - npm install
+#     - npm run build
+
 docker-build:
-  image: docker:latest
+  image: node:latest
   stage: build
   services:
     - docker:dind
