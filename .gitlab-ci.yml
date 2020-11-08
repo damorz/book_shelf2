@@ -1,43 +1,62 @@
-
 stages:
   - publish
+  - deploy
 
-docker-publish:
+docker-build:
   image: docker:latest
   stage: publish
   services:
     - docker:dind
-  variables:
-    DOCKER_DRIVER: overlay
   before_script:
-    # Install CA certs, openssl to https downloads, python for gcloud sdk
-    - apk add --update make ca-certificates openssl python3
-    - update-ca-certificates
-    # Write our GCP service account private key into a file
-    - echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
-    # Download and install Google Cloud SDK
-    - wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz
-    - tar zxvf google-cloud-sdk.tar.gz && ./google-cloud-sdk/install.sh --usage-reporting=false --path-update=true
-    - google-cloud-sdk/bin/gcloud --quiet components update
-    - google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
-    - docker login -u _json_key --password-stdin https://us.gcr.io < ${HOME}/gcloud-service-key.json
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - docker build -t $IMAGE_NAME .
-    - docker tag $IMAGE_NAME "us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME"
-    - docker push "us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME:latest"
-  only:
-    - main
+    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+    - docker push "$CI_REGISTRY_IMAGE"
 
 
-# dist-build:
-#   image: node:latest
-#   stage: build
+deploy:
+  image: alpine:latest
+  stage: deploy
+  tags:
+    - deployment
+  script:
+    - chmod og= $ID_RSA
+    - apk update && apk add openssh-client
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull $TAG_COMMIT"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f my-app || true"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p 80:80 --name my-app $TAG_COMMIT"
+
+# Publish to Cloud registry=============================================================================================
+# stages:
+#   - publish
+
+# docker-publish:
+#   image: docker:latest
+#   stage: publish
+#   services:
+#     - docker:dind
+#   variables:
+#     DOCKER_DRIVER: overlay
+#   before_script:
+#     # Install CA certs, openssl to https downloads, python for gcloud sdk
+#     - apk add --update make ca-certificates openssl python3
+#     - update-ca-certificates
+#     # Write our GCP service account private key into a file
+#     - echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+#     # Download and install Google Cloud SDK
+#     - wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz
+#     - tar zxvf google-cloud-sdk.tar.gz && ./google-cloud-sdk/install.sh --usage-reporting=false --path-update=true
+#     - google-cloud-sdk/bin/gcloud --quiet components update
+#     - google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+#     - docker login -u _json_key --password-stdin https://us.gcr.io < ${HOME}/gcloud-service-key.json
 #   script:
-#     - npm install
-#     - npm run build
-#     - rm -rf public
-#     - mv dist public
-
+#     - docker build -t $IMAGE_NAME .
+#     - docker tag $IMAGE_NAME "us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME"
+#     - docker push "us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME:latest"
+#   only:
+#     - main
+# ========================================================================================================================
 
 # deployment:
 #   image: registry.gitlab.com/damorz/book_shelf:latest
@@ -53,17 +72,6 @@ docker-publish:
 #     - main
 
 
-
-# deploy-container:
-#   image: registry.gitlab.com/damorz/book_shelf:latest
-#   stage: deploy
-#   script:
-#     - ./deploy.sh
-#   only:
-#     - main
-    
-    
-    
 # pages:
 #   image: node:latest
 #   stage: deploy
@@ -80,13 +88,3 @@ docker-publish:
 
 
 
-# docker-build:
-#   image: docker:latest
-#   stage: build
-#   services:
-#     - docker:dind
-#   before_script:
-#     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-#   script:
-#     - docker build --pull -t "$CI_REGISTRY_IMAGE" .
-#     - docker push "$CI_REGISTRY_IMAGE"
