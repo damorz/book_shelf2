@@ -18,6 +18,7 @@ docker-publish:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay
+    IMAGE_NAME: "Gitlab_CI_CD"
   before_script:
     # Install CA certs, openssl to https downloads, python for gcloud sdk
     - apk add --update make ca-certificates openssl python3
