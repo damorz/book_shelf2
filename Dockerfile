@@ -1,8 +1,3 @@
-
-# FROM nginx
-
-# COPY dist /usr/share/nginx/html
-
 FROM node:lts-alpine as build-stage
 
 WORKDIR /app
@@ -15,7 +10,7 @@ COPY . .
 
 RUN npm run build
 
-# ===================================================================
+# _______________________________________________________________
 
 FROM nginx:stable-alpine as production-stage
 

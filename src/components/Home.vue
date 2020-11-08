@@ -3,7 +3,7 @@
     <!-- filter section -->
     <v-row class="mr-auto filter-bar">
       <v-col cols="3" class="py-2">
-        <h3>Sort by:</h3>
+        <h3>Sort by: test 1</h3>
         <v-btn-toggle
           v-model="sortingType"
           tile
