@@ -1,6 +1,7 @@
 
-# stages:
-#   - build
+stages:
+  - build
+  - deploy
 
 # dist-build:
 #   image: node:latest
@@ -22,6 +23,15 @@ docker-build:
     - docker build --pull -t "$CI_REGISTRY_IMAGE" .
     - docker push "$CI_REGISTRY_IMAGE"
   
+deployment:
+  image: registry.gitlab.com/damorz/book_shelf:latest
+  stage: deploy
+  script:
+    - echo deploy?
+  only:
+    - main
+
+
 
 # deploy-container:
 #   image: registry.gitlab.com/damorz/book_shelf:latest
