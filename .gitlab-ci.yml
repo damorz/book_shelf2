@@ -28,6 +28,7 @@ deployment:
   stage: deploy
   script:
     - echo deploy?
+    - ls
   only:
     - main
 
