@@ -31,7 +31,8 @@ deployment:
     - rm -rf public
     - mv dist public
   artifacts:
-    - public
+    paths:
+      - public
   only:
     - main
 
