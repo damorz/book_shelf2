@@ -27,8 +27,11 @@ deployment:
   image: registry.gitlab.com/damorz/book_shelf:latest
   stage: deploy
   script:
-    - echo deploy?
-    - ls
+    - npm run build
+    - rm -rf public
+    - mv dist public
+  artifacts:
+    - public
   only:
     - main
 
