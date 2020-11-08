@@ -2,15 +2,6 @@
 stages:
   - publish
 
-# dist-build:
-#   image: node:latest
-#   stage: build
-#   script:
-#     - npm install
-#     - npm run build
-#     - rm -rf public
-#     - mv dist public
-
 docker-publish:
   image: docker:latest
   stage: publish
@@ -36,6 +27,16 @@ docker-publish:
     - docker push "us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME:latest"
   only:
     - main
+
+
+# dist-build:
+#   image: node:latest
+#   stage: build
+#   script:
+#     - npm install
+#     - npm run build
+#     - rm -rf public
+#     - mv dist public
 
 
 # deployment:
