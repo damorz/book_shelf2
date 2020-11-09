@@ -72,7 +72,7 @@ deploy_production:
   script:
   - echo $GCLOUD_SERVICE_KEY > /tmp/$CI_PIPELINE_ID.json
   - gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
-  - gcloud run deploy GitlabCI --platform managed --image us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME:latest
+  - gcloud run deploy bookshelf --platform managed --image us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME:latest
 
 # ========================================================================================================================
 
