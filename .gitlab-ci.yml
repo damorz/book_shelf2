@@ -73,7 +73,7 @@ deploy_production:
   - echo $GCLOUD_SERVICE_KEY > /tmp/$CI_PIPELINE_ID.json
   - gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
   - gcloud config set project solid-idiom-295016 
-  - gcloud run deploy bookshelf --platform managed --image us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME:latest
+  - gcloud run deploy bookshelf --platform managed --image us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME:latest --region us-central1
 # ========================================================================================================================
 
 # deployment:
