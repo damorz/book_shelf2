@@ -1,21 +1,20 @@
 stages:
   - publish
-  - deploy
 
-variables:
-  TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:latest
-  TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
+# variables:
+#   TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:latest
+#   TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
 
-docker-build:
-  image: docker:latest
-  stage: publish
-  services:
-    - docker:dind
-  before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-  script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
-    - docker push "$CI_REGISTRY_IMAGE"
+# docker-build:
+#   image: docker:latest
+#   stage: publish
+#   services:
+#     - docker:dind
+#   before_script:
+#     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+#   script:
+#     - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+#     - docker push "$CI_REGISTRY_IMAGE"
 
 # $CI_REGISTRY_IMAGE
 # deploy:
@@ -36,31 +35,31 @@ docker-build:
 # stages:
 #   - publish
 
-# docker-publish:
-#   image: docker:latest
-#   stage: publish
-#   services:
-#     - docker:dind
-#   variables:
-#     DOCKER_DRIVER: overlay
-#   before_script:
-#     # Install CA certs, openssl to https downloads, python for gcloud sdk
-#     - apk add --update make ca-certificates openssl python3
-#     - update-ca-certificates
-#     # Write our GCP service account private key into a file
-#     - echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
-#     # Download and install Google Cloud SDK
-#     - wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz
-#     - tar zxvf google-cloud-sdk.tar.gz && ./google-cloud-sdk/install.sh --usage-reporting=false --path-update=true
-#     - google-cloud-sdk/bin/gcloud --quiet components update
-#     - google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
-#     - docker login -u _json_key --password-stdin https://us.gcr.io < ${HOME}/gcloud-service-key.json
-#   script:
-#     - docker build -t $IMAGE_NAME .
-#     - docker tag $IMAGE_NAME "us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME"
-#     - docker push "us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME:latest"
-#   only:
-#     - main
+docker-publish:
+  image: docker:latest
+  stage: publish
+  services:
+    - docker:dind
+  variables:
+    DOCKER_DRIVER: overlay
+  before_script:
+    # Install CA certs, openssl to https downloads, python for gcloud sdk
+    - apk add --update make ca-certificates openssl python3
+    - update-ca-certificates
+    # Write our GCP service account private key into a file
+    - echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+    # Download and install Google Cloud SDK
+    - wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz
+    - tar zxvf google-cloud-sdk.tar.gz && ./google-cloud-sdk/install.sh --usage-reporting=false --path-update=true
+    - google-cloud-sdk/bin/gcloud --quiet components update
+    - google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+    - docker login -u _json_key --password-stdin https://us.gcr.io < ${HOME}/gcloud-service-key.json
+  script:
+    - docker build -t $IMAGE_NAME .
+    - docker tag $IMAGE_NAME "us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME"
+    - docker push "us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME:latest"
+  only:
+    - main
 # ========================================================================================================================
 
 # deployment:
