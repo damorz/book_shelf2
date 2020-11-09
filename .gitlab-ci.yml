@@ -1,5 +1,6 @@
 stages:
   - publish
+  - deploy
 
 # variables:
 #   TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:latest
@@ -61,6 +62,17 @@ docker-publish:
   only:
     - main
 
+
+deploy_production:
+  image: google/cloud-sdk:alpine
+  stage: deploy
+  environment: Production
+  only:
+  - main
+  script:
+  - echo $GCLOUD_SERVICE_KEY > /tmp/$CI_PIPELINE_ID.json
+  - gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
+  - gcloud --quiet --project $GCLOUD_PROJECT_ID app deploy app.yaml dispatch.yaml
 # ========================================================================================================================
 
 # deployment:
