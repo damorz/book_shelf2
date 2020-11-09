@@ -72,7 +72,6 @@ deploy_production:
   script:
   - echo $GCLOUD_SERVICE_KEY > /tmp/$CI_PIPELINE_ID.json
   - gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
-  - gcloud --quiet --project $GCLOUD_PROJECT_ID app deploy 
 # ========================================================================================================================
 
 # deployment:
