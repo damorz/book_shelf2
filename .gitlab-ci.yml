@@ -60,6 +60,7 @@ docker-publish:
     - docker push "us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME:latest"
   only:
     - main
+
 # ========================================================================================================================
 
 # deployment:
