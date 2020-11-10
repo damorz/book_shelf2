@@ -1,13 +1,19 @@
 <template>
   <v-list-item v-if="showFavoriteBook" class="book-item">
     <v-img
-    v-if="hasImageData"
+      v-if="hasImageData"
       max-height="100%"
       max-width="10%"
       :src="imageLink"
     >
     </v-img>
-
+    <v-img
+      v-else
+      max-height="100%"
+      max-width="10%"
+      src="https://i.redd.it/s8lk86v3r2m11.png"
+    >
+    </v-img>
     <v-list-item-content class="book-list-content">
       <h3>{{ item.volumeInfo.title }}</h3>
       <v-list-item-subtitle class="ml-auto" v-html="item.volumeInfo.description"></v-list-item-subtitle>
@@ -84,13 +90,13 @@ export default {
       return "https://i.redd.it/s8lk86v3r2m11.png";
     },
     hasImageData() {
-      return this.item.volumeInfo.imageLinks !== null && this.item.volumeInfo.imageLinks !== undefined;
+      return this.item.volumeInfo.imageLinks !== undefined;
     },
     hasThumbnailImage() {
-      return this.item.volumeInfo.imageLinks.thumbnail !== null && this.item.volumeInfo.imageLinks.thumbnail !== undefined;
+      return this.item.volumeInfo.imageLinks.thumbnail !== undefined;
     },
     hasSmallThumbnailImage() {
-      return this.item.volumeInfo.imageLinks.smallThumbnail !== null && this.item.volumeInfo.imageLinks.smallThumbnail !== undefined;
+      return this.item.volumeInfo.imageLinks.smallThumbnail !== undefined;
     }
   },
 
