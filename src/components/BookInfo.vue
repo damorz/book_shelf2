@@ -8,12 +8,18 @@
       <!-- Image Section -->
       <v-col cols="4" align="center">
         <v-img
-        v-if="hasImageData"
+          v-if="hasImageData"
           max-height="100%"
           max-width="80%"
           :src="imageLink"
         >
         </v-img>
+        <v-img
+          v-else
+          max-height="100%"
+          max-width="10%"
+          src="https://i.redd.it/s8lk86v3r2m11.png"
+        >
       </v-col>
 
       <!-- Title Section -->
