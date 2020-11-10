@@ -3,9 +3,26 @@
     <div class="horizontal-item ml-auto mt-auto" slot-scope="{ hover }">
       <div class="img-horizontal">
         <v-img
-        v-if="hasImageData"
+          v-if="hasImageData"
           width="100%"
           :src="imageLink"
+          style="margin: auto;"
+        >
+          <v-expand-transition>
+            <div
+              v-if="hover"
+              @click="goToBookInfo"
+              class="pointer d-flex transition-fast-in-fast-out black darken-2 v-card--reveal display-3 white--text"
+              style="height: 100%;"
+            >
+              <p style="font-size:3vh;">Read more</p>
+            </div>
+          </v-expand-transition>
+        </v-img>
+        <v-img
+          v-else
+          width="100%"
+          src="https://i.redd.it/s8lk86v3r2m11.png"
           style="margin: auto;"
         >
           <v-expand-transition>
