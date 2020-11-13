@@ -20,6 +20,7 @@
           max-width="10%"
           src="https://i.redd.it/s8lk86v3r2m11.png"
         >
+        </v-img>
       </v-col>
 
       <!-- Title Section -->
